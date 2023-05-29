@@ -7,12 +7,15 @@ import com.example.book.repository.RoleRepository;
 import com.example.book.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
@@ -40,6 +43,14 @@ public class UserService implements UserDetailsService {
         UserDetails userDetails = new org.springframework.security.core.userdetails.User(user.get().getEmail(),
                 user.get().getPassword(), getRole(user.get()));
         return userDetails;
+    }
+
+    public void addUserAttributesToModel(Model model){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userRepository.findUserByEmail(auth.getName()).get();
+        String role = user.getRole().getName();
+        model.addAttribute("user_detail", user);
+        model.addAttribute("role", role);
     }
 
     public void saveRegisteredUser(UserRegister userRegister){
