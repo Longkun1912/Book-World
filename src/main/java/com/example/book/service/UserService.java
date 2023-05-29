@@ -1,12 +1,12 @@
 package com.example.book.service;
 
-import com.example.book.domain.MapStructMapper;
 import com.example.book.domain.UserRegister;
 import com.example.book.entity.Role;
 import com.example.book.entity.User;
 import com.example.book.repository.RoleRepository;
 import com.example.book.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -23,7 +23,7 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class UserService implements UserDetailsService {
-    private MapStructMapper mapper;
+    private final ModelMapper mapper;
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
@@ -43,7 +43,7 @@ public class UserService implements UserDetailsService {
     }
 
     public void saveRegisteredUser(UserRegister userRegister){
-        User user = mapper.userRegisterToUser(userRegister);
+        User user = mapper.map(userRegister, User.class);
         user.setId(UUID.randomUUID());
         user.setPassword(passwordEncoder.encode(userRegister.getPassword()));
         user.setRole(roleRepository.findRoleByName("user"));
