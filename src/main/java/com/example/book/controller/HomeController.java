@@ -103,4 +103,9 @@ public class HomeController {
             return "home";
         }
     }
+
+    @GetMapping(value = "/logout")
+    public String logOut(){
+        return "home";
+    }
 }

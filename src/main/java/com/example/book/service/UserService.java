@@ -1,5 +1,6 @@
 package com.example.book.service;
 
+import com.example.book.domain.UserInfoDetails;
 import com.example.book.domain.UserRegister;
 import com.example.book.entity.Role;
 import com.example.book.entity.User;
@@ -18,10 +19,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.Optional;
-import java.util.Set;
-import java.util.UUID;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -53,6 +52,7 @@ public class UserService implements UserDetailsService {
         model.addAttribute("role", role);
     }
 
+    // Save user to database after registration
     public void saveRegisteredUser(UserRegister userRegister){
         User user = mapper.map(userRegister, User.class);
         user.setId(UUID.randomUUID());
@@ -60,5 +60,20 @@ public class UserService implements UserDetailsService {
         user.setRole(roleRepository.findRoleByName("user"));
         user.setLast_updated(LocalDateTime.now());
         userRepository.save(user);
+    }
+
+    // Configure user data before showing in user index
+    public List<UserInfoDetails> configureUserInfo(){
+        Role role = roleRepository.findRoleByName("user");
+        List<User> users = userRepository.findUserByRole(role);
+        List<UserInfoDetails> userInfoDetailsList = new ArrayList<>();
+        for (User user : users){
+            UserInfoDetails userInfoDetails = mapper.map(user, UserInfoDetails.class);
+            LocalDateTime last_updated = user.getLast_updated();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/M/yyyy 'at' hh:mm a");
+            userInfoDetails.setLast_updated(last_updated.format(formatter));
+            userInfoDetailsList.add(userInfoDetails);
+        }
+        return userInfoDetailsList;
     }
 }
