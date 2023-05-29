@@ -1,15 +1,28 @@
 package com.example.book.controller;
 
+import com.example.book.domain.UserRegister;
+import com.example.book.repository.UserRepository;
 import com.example.book.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.Objects;
 
 @Controller
 @RequiredArgsConstructor
 public class HomeController {
+    private final UserRepository userRepository;
     private final UserService userService;
     @GetMapping(value = "/")
     public String homeIndex(){
@@ -42,6 +55,52 @@ public class HomeController {
             }
         } else {
             return "error_page";
+        }
+    }
+
+    @GetMapping(value = "/register")
+    public String register(Model model){
+        model.addAttribute("user",new UserRegister());
+        return "register";
+    }
+
+    @PostMapping(value = "/register")
+    public String registerForm(@ModelAttribute("user") @Valid UserRegister userRegister, BindingResult result,
+                               @RequestParam(value = "termCheck",required = false) Boolean termCheck,
+                               @RequestParam(value = "file",required = false) MultipartFile file) throws IOException {
+        if(result.hasErrors()){
+            return "register";
+        }
+        else if (userRepository.findUserByName(userRegister.getUsername()).isPresent()) {
+            result.rejectValue("username",null,"Username already exists.");
+            return "register";
+        }
+        else if (userRepository.findUserByEmail(userRegister.getEmail()).isPresent()) {
+            result.rejectValue("email",null,"Email already exists.");
+            return "register";
+        }
+        else if (userRepository.findUserByPhoneNumber(userRegister.getPhone_number()).isPresent()) {
+            result.rejectValue("phone_number",null,"Phone number already exists.");
+            return "register";
+        }
+        else if(!Objects.equals(userRegister.getPassword(), userRegister.getConfirm_password())){
+            result.rejectValue("confirm_password",null,"Confirm password does not match.");
+            return "register";
+        }
+        else if(file == null || file.isEmpty()){
+            result.rejectValue("image_file",null,"Please upload your image.");
+            return "register";
+        }
+        else if(!Objects.requireNonNull(file.getContentType()).startsWith("image/")){
+            result.rejectValue("image_file",null,"Please upload only image files.");
+            return "register";
+        }
+        else if(termCheck == null || !termCheck){
+            return "register";
+        }
+        else {
+            userService.saveRegisteredUser(userRegister);
+            return "home";
         }
     }
 }
