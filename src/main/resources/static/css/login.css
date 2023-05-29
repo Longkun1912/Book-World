@@ -1,0 +1,61 @@
+html {
+    height: 100%;
+    overflow-y: scroll;
+}
+body{
+    background-image: url('https://i.pinimg.com/736x/23/cb/71/23cb7143f892c49537c8a55f5ee21988.jpg');
+    background-size: cover;
+}
+#form-container{
+    display: flex;
+    justify-content: center;
+}
+#login-form{
+    background-color: white;
+    height: 400px;
+    width: 600px;
+    border-radius: 12px;
+    margin-top: 10%;
+}
+#login-label{
+    text-align: center;
+    margin-top: 4%;
+}
+#input-error{
+    margin-left: 10%;
+    margin-top: 5%;
+    height: 15%;
+    width: 80%;
+    display: flex;
+    justify-content: center;
+}
+#input-form{
+    width: 450px;
+    display: flex;
+    margin-top: 5%;
+}
+#input-label{
+    flex-basis: 30%;
+    margin-left: 5%;
+}
+#input-data{
+    flex-basis: 70%;
+    margin-left: 5%;
+}
+#login-submit{
+    width: 90%;
+    margin-top: 7%;
+    margin-left: 5%;
+    height: 15%;
+    font-size: 100%;
+}
+::-ms-reveal {
+    display: none;
+}
+#togglePass{
+    cursor: pointer;
+}
+#show_hide_password{
+    width: 140%;
+    margin-top: 10%;
+}
