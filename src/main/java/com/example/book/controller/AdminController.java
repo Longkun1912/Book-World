@@ -2,6 +2,7 @@ package com.example.book.controller;
 
 import com.example.book.domain.UserHandling;
 import com.example.book.domain.UserInfoDetails;
+import com.example.book.entity.User;
 import com.example.book.repository.UserRepository;
 import com.example.book.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 
 @Controller
@@ -128,6 +130,13 @@ public class AdminController {
             userService.saveUpdatedUser(userHandling);
             return "redirect:/admin/user-index";
         }
+    }
+
+    @GetMapping("/delete-user/{id}")
+    public String deleteUser(@PathVariable("id") UUID user_id){
+        Optional<User> user = Optional.of(userRepository.findById(user_id).orElseThrow());
+        userRepository.delete(user.get());
+        return "redirect:/admin/user-index";
     }
 
     @GetMapping(value = "/logout")
