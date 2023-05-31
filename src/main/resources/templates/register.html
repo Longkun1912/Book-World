@@ -117,15 +117,16 @@
                                 </div>
 
                                 <div class="form-outline mb-4">
-                                    <label class="form-check-label">Upload user image: </label>
-                                    <div class="custom-file">
-                                        <input type="file" class="custom-file-input" id="customFile" name="file">
-                                    </div>
+                                    <label class="form-label" for="user_img">Your Image:</label>
+                                    <input type="text"
+                                           id="user_img"
+                                           style="border: 1px solid #4f4f4f"
+                                           th:field="*{image_url}"
+                                           class="form-control form-control-lg" />
                                     <div
                                             class="alert alert-warning"
-                                            style="width: 300px;"
-                                            th:if="${#fields.hasErrors('image_file')}"
-                                            th:errors="*{image_file}"
+                                            th:if="${#fields.hasErrors('image_url')}"
+                                            th:errors="*{image_url}"
                                     ></div>
                                 </div>
 

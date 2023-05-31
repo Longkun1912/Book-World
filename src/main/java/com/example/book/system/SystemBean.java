@@ -1,4 +1,4 @@
-package com.example.book.security;
+package com.example.book.system;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;

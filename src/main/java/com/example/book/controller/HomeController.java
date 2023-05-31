@@ -66,8 +66,7 @@ public class HomeController {
 
     @PostMapping(value = "/register")
     public String registerForm(@ModelAttribute("user") @Valid UserRegister userRegister, BindingResult result,
-                               @RequestParam(value = "termCheck",required = false) Boolean termCheck,
-                               @RequestParam(value = "file",required = false) MultipartFile file) throws IOException {
+                               @RequestParam(value = "termCheck",required = false) Boolean termCheck) throws IOException {
         if(result.hasErrors()){
             return "register";
         }
@@ -87,14 +86,6 @@ public class HomeController {
             result.rejectValue("confirm_password",null,"Confirm password does not match.");
             return "register";
         }
-        else if(file == null || file.isEmpty()){
-            result.rejectValue("image_file",null,"Please upload your image.");
-            return "register";
-        }
-        else if(!Objects.requireNonNull(file.getContentType()).startsWith("image/")){
-            result.rejectValue("image_file",null,"Please upload only image files.");
-            return "register";
-        }
         else if(termCheck == null || !termCheck){
             return "register";
         }
@@ -102,10 +93,5 @@ public class HomeController {
             userService.saveRegisteredUser(userRegister);
             return "home";
         }
-    }
-
-    @GetMapping(value = "/logout")
-    public String logOut(){
-        return "home";
     }
 }

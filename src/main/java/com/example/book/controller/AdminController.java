@@ -42,4 +42,9 @@ public class AdminController {
         model.addAttribute("users", userInfoDetailsList);
         return "admin/user_index";
     }
+
+    @GetMapping(value = "/logout")
+    public String logOut(){
+        return "home";
+    }
 }

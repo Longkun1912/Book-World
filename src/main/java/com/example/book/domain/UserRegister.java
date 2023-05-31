@@ -1,12 +1,12 @@
 package com.example.book.domain;
 
 import com.example.book.security.ValidPassword;
+import com.example.book.system.ValidImageURL;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
-import org.springframework.web.multipart.MultipartFile;
 
 @Data
 public class UserRegister {
@@ -15,7 +15,8 @@ public class UserRegister {
     private String username;
 
     @JsonProperty
-    private MultipartFile image_file;
+    @ValidImageURL
+    private String image_url;
 
     @JsonProperty
     @NotEmpty(message = "This field cannot be empty.")
