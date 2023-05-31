@@ -66,7 +66,7 @@ public class HomeController {
 
     @PostMapping(value = "/register")
     public String registerForm(@ModelAttribute("user") @Valid UserRegister userRegister, BindingResult result,
-                               @RequestParam(value = "termCheck",required = false) Boolean termCheck) throws IOException {
+                               @RequestParam(value = "termCheck",required = false) Boolean termCheck){
         if(result.hasErrors()){
             return "register";
         }

@@ -33,7 +33,7 @@
                         <div class="card-body p-5">
                             <h2 class="text-uppercase text-center mb-5">Create your account</h2>
 
-                            <form th:action="@{/register}" th:object="${user}" enctype="multipart/form-data" th:method="post">
+                            <form th:action="@{/register}" th:object="${user}" th:method="post">
 
                                 <div class="form-outline mb-4">
                                     <label class="form-label" for="username">Your Name:</label>
@@ -163,10 +163,6 @@
 </section>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script th:src="@{assets/password-strength-meter/password.min.js}"></script>
-<script th:src="@{assets/custom-file-input/bs-custom-file-input.js}"></script>
 <script th:src="@{/js/show-hide-password.js}"></script>
-<script>
-    bsCustomFileInput.init();
-</script>
 </body>
 </html>

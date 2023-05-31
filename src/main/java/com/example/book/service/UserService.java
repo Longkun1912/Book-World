@@ -1,5 +1,6 @@
 package com.example.book.service;
 
+import com.example.book.domain.UserHandling;
 import com.example.book.domain.UserInfoDetails;
 import com.example.book.domain.UserRegister;
 import com.example.book.entity.Role;
@@ -44,20 +45,22 @@ public class UserService implements UserDetailsService {
         return userDetails;
     }
 
-    public void addUserAttributesToModel(Model model){
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userRepository.findUserByEmail(auth.getName()).get();
-        String role = user.getRole().getName();
-        model.addAttribute("user_detail", user);
-        model.addAttribute("role", role);
-    }
-
     // Save user to database after registration
     public void saveRegisteredUser(UserRegister userRegister){
         User user = mapper.map(userRegister, User.class);
         user.setId(UUID.randomUUID());
         user.setPassword(passwordEncoder.encode(userRegister.getPassword()));
         user.setRole(roleRepository.findRoleByName("user"));
+        user.setLast_updated(LocalDateTime.now());
+        userRepository.save(user);
+    }
+
+    // Save user to database after added by admin
+    public void saveAddUser(UserHandling userHandling){
+        User user = mapper.map(userHandling, User.class);
+        user.setId(UUID.randomUUID());
+        user.setPassword(passwordEncoder.encode(userHandling.getPassword()));
+        user.setRole(roleRepository.findRoleByName(userHandling.getInput_role()));
         user.setLast_updated(LocalDateTime.now());
         userRepository.save(user);
     }
@@ -75,5 +78,33 @@ public class UserService implements UserDetailsService {
             userInfoDetailsList.add(userInfoDetails);
         }
         return userInfoDetailsList;
+    }
+
+    public List<String> getUserStatus(){
+        List<String> status = new ArrayList<>();
+        status.add("Enabled");
+        status.add("Disabled");
+        return status;
+    }
+
+    public List<String> getUserRole(){
+        List<String> roles = new ArrayList<>();
+        roles.add("admin");
+        roles.add("user");
+        return roles;
+    }
+
+    public void addUserAttributesToModel(Model model){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userRepository.findUserByEmail(auth.getName()).get();
+        String role = user.getRole().getName();
+        model.addAttribute("user_detail", user);
+        model.addAttribute("role", role);
+    }
+
+    public void updateModel(Model model){
+        addUserAttributesToModel(model);
+        model.addAttribute("status",getUserStatus());
+        model.addAttribute("roles", getUserRole());
     }
 }
