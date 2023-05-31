@@ -30,6 +30,7 @@ public class UserHandling {
 
     @JsonProperty
     @NotEmpty(message = "This field cannot be empty.")
+    @Size(max = 11, message = "Phone cannot exceed 11 numbers.")
     private String phone_number;
 
     @JsonProperty

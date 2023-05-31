@@ -4,20 +4,21 @@ import com.example.book.domain.UserHandling;
 import com.example.book.domain.UserInfoDetails;
 import com.example.book.repository.UserRepository;
 import com.example.book.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/admin")
@@ -90,9 +91,19 @@ public class AdminController {
         }
     }
 
+    @GetMapping(value = "/edit-user/{id}")
+    public String editUser(@PathVariable("id") UUID user_id, Model model){
+        userService.updateModel(model);
+        userService.configureUserBeforeEdit(user_id, model);
+        return "admin/edit_user";
+    }
 
     @GetMapping(value = "/logout")
-    public String logOut(){
-        return "home";
+    public String logOut(HttpServletRequest request, HttpServletResponse response){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            new SecurityContextLogoutHandler().logout(request, response, auth);
+        }
+        return "redirect:/";
     }
 }

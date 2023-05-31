@@ -23,7 +23,9 @@ public class SecurityConfig {
                         .passwordParameter("password").defaultSuccessUrl("/login-success",true))
                 .logout(httpSecurityLogoutConfigurer -> httpSecurityLogoutConfigurer
                         .logoutUrl("/logout")
-                        .logoutSuccessUrl("/"));
+                        .logoutSuccessUrl("/")
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID"));
         return http.build();
     }
 }

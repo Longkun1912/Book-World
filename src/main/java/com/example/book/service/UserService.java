@@ -65,6 +65,12 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
     }
 
+    public void configureUserBeforeEdit(UUID user_id, Model model){
+        Optional<User> existing_user = Optional.of(userRepository.findById(user_id).orElseThrow());
+        UserHandling userHandling = mapper.map(existing_user.get(), UserHandling.class);
+        model.addAttribute("edit_user", userHandling);
+    }
+
     // Configure user data before showing in user index
     public List<UserInfoDetails> configureUserInfo(){
         Role role = roleRepository.findRoleByName("user");
