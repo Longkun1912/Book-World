@@ -27,4 +27,8 @@ public class CategoryService {
         categoryRepository.save(category);
     }
 
+    public List<String> getCategories(){
+        return categoryRepository.findAll().stream().map(Category::getName).toList();
+    }
+
 }
