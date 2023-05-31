@@ -98,6 +98,38 @@ public class AdminController {
         return "admin/edit_user";
     }
 
+    @PostMapping(value = "/edit-user")
+    public String editUserForm(@ModelAttribute("edit_user") @Valid UserHandling userHandling, BindingResult result, Model model){
+        if(result.hasErrors()){
+            userService.updateModel(model);
+            return "admin/edit_user";
+        }
+        else if (userRepository.findUserByName(userHandling.getUsername()).isPresent()) {
+            userService.updateModel(model);
+            result.rejectValue("username",null,"Username already exists.");
+            return "admin/edit_user";
+        }
+        else if (userRepository.findUserByEmail(userHandling.getEmail()).isPresent()) {
+            userService.updateModel(model);
+            result.rejectValue("email",null,"Email already exists.");
+            return "admin/edit_user";
+        }
+        else if (userRepository.findUserByPhoneNumber(userHandling.getPhone_number()).isPresent()) {
+            userService.updateModel(model);
+            result.rejectValue("phone_number",null,"Phone number already exists.");
+            return "admin/edit_user";
+        }
+        else if(!Objects.equals(userHandling.getPassword(), userHandling.getConfirm_password())){
+            userService.updateModel(model);
+            result.rejectValue("confirm_password",null,"Confirm password does not match.");
+            return "admin/edit_user";
+        }
+        else {
+            userService.saveUpdatedUser(userHandling);
+            return "redirect:/admin/user-index";
+        }
+    }
+
     @GetMapping(value = "/logout")
     public String logOut(HttpServletRequest request, HttpServletResponse response){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

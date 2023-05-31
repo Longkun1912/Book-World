@@ -65,6 +65,18 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
     }
 
+    public void saveUpdatedUser(UserHandling userHandling){
+        Optional<User> existed_user = userRepository.findById(userHandling.getId());
+        if(existed_user.isPresent()){
+            User updated_user = mapper.map(userHandling, User.class);
+            updated_user.setId(userHandling.getId());
+            updated_user.setRole(roleRepository.findRoleByName(userHandling.getInput_role()));
+            updated_user.setLast_updated(LocalDateTime.now());
+            updated_user.setPassword(passwordEncoder.encode(userHandling.getPassword()));
+            userRepository.save(updated_user);
+        }
+    }
+
     public void configureUserBeforeEdit(UUID user_id, Model model){
         Optional<User> existing_user = Optional.of(userRepository.findById(user_id).orElseThrow());
         UserHandling userHandling = mapper.map(existing_user.get(), UserHandling.class);
