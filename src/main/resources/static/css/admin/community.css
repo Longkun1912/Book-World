@@ -1,0 +1,160 @@
+#community-page{
+    padding-top: 10%;
+    background-color: antiquewhite;
+}
+#community-welcome{
+    margin-left: 25%;
+    width: 600px;
+}
+#create-post{
+    margin-left: 25%;
+    margin-top: 20px;
+    width: 600px;
+    height: 100px;
+    background-color: white;
+    border-radius: 12px;
+    display: flex;
+}
+#user-avatar{
+    margin-left: 10px;
+    margin-top: 10px;
+}
+.user-image{
+    height: 80px;
+    width: 80px;
+    border-radius: 50%;
+}
+#create-content{
+    display: flex;
+    justify-content: center;
+    margin-left: 15px;
+    margin-top: 15px;
+}
+#input-content{
+    width: 475px;
+    height: 50px;
+    margin-top: 10px;
+    cursor: pointer;
+    background-color: #f2f3f4;
+    text-align: left;
+    border-radius: 5px;
+}
+#post-container{
+    margin-left: 25%;
+    width: 600px;
+}
+#community-post{
+    background-color: white;
+    border-radius: 12px;
+
+}
+.post-intro{
+    padding-top: 10px;
+    margin-left: 10px;
+    display: flex;
+}
+.creator-image{
+
+}
+.other-intro{
+    margin-left: 20px;
+    margin-top: 5px;
+}
+
+#post-actions .btn-secondary {
+  border: none;
+  background-color: transparent;
+  color: #333;
+  font-size: 40px;
+  margin-left: 580%;
+  margin-top: -150%;
+}
+
+#post-actions .btn-secondary:focus {
+  box-shadow: none;
+}
+
+#post-actions .dropdown-toggle::after {
+  display: none;
+}
+
+#post-actions .dropdown-item + .dropdown-item:before {
+  content: "";
+  display: block;
+  height: 1px;
+  margin: 8px 0;
+  border-top: 1px solid #ccc;
+}
+
+.post-image{
+    margin-left: 30%;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    width: 200px;
+    height: 200px;
+}
+.post-content{
+    margin-top: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+#rate-container{
+    display: flex;
+    margin-left: 15px;
+    background-color: aliceblue;
+}
+
+.post-reaction{
+    border-top: 1px solid;
+    margin-top: 30px;
+}
+
+.provide-reaction{
+    margin-left: 22px;
+    margin-top: 10px;
+    width: 580px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: right;
+}
+
+.reaction-question{
+    font-size: 18px;
+    margin-top: 10px;
+    margin-right: 25px;
+    color: dimgrey;
+}
+
+.rating-result{
+    margin-left: 20px;
+    margin-top: 20px;
+    display: flex;
+}
+
+.people-rates{
+    margin-left: 20%;
+    margin-top: -10px;
+}
+
+.full-star {
+    color: crimson;
+}
+
+.no-star{
+    color: lightgrey;
+}
+
+.half-star {
+  background: linear-gradient(to right, crimson 50%, crimson 50%, lightgrey 50%, lightgrey 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+
+
+
+
+
+
