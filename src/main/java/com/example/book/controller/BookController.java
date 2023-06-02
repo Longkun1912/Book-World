@@ -105,4 +105,38 @@ public class BookController {
             return "redirect:/admin/book-index";
         }
     }
+
+    @RequestMapping(path = "/admin/edit-book/{id}", method = RequestMethod.GET)
+    public String editBook(@PathVariable("id") Integer book_id, Model model){
+        userService.updateModel(model);
+        bookService.updateBookInfoModel(model);
+        BookHandling bookHandling = bookService.configureBookBeforeEditing(book_id);
+        model.addAttribute("edit_book", bookHandling);
+        return "admin/edit_book";
+    }
+
+    @RequestMapping(path = "/admin/edit-book", method = RequestMethod.POST)
+    public String editBookForm(@ModelAttribute("edit_book") @Valid BookHandling bookHandling, BindingResult result, Model model){
+        if(result.hasErrors()){
+            userService.updateModel(model);
+            bookService.updateBookInfoModel(model);
+            return "admin/edit_book";
+        }
+        else if (bookRepository.findBookByTitle(bookHandling.getTitle()).isPresent()){
+            userService.updateModel(model);
+            bookService.updateBookInfoModel(model);
+            result.rejectValue("title",null,"Book title already exist.");
+            return "admin/edit_book";
+        }
+        else {
+            bookService.configureBookWhileEditing(bookHandling);
+            return "redirect:/admin/book-index";
+        }
+    }
+
+    @RequestMapping(path = "/admin/delete-book/{id}", method = RequestMethod.GET)
+    public String deleteBook(@PathVariable("id") Integer book_id){
+        bookService.deleteBook(book_id);
+        return "redirect:/admin/book-index";
+    }
 }

@@ -65,6 +65,31 @@ public class BookService {
         bookRepository.save(book);
     }
 
+    public BookHandling configureBookBeforeEditing(Integer book_id){
+        Optional<Book> book = Optional.of(bookRepository.findById(book_id).orElseThrow());
+        return mapper.map(book.get(), BookHandling.class);
+    }
+
+    public void configureBookWhileEditing(BookHandling bookHandling){
+        // Convert date from string
+        String published_date = bookHandling.getPublished_day();
+        LocalDate date = LocalDate.parse(published_date.trim(), DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+        // Map book entity and save to database
+        Optional<Book> existing_book = bookRepository.findById(bookHandling.getId());
+        if(existing_book.isPresent()){
+            Book book = mapper.map(bookHandling, Book.class);
+            book.setCategory(categoryRepository.findCategoryByName(bookHandling.getCategory_name()).get());
+            book.setRecommended_age(Integer.parseInt(bookHandling.getRecommended_age()));
+            book.setPublished_date(date);
+            bookRepository.save(book);
+        }
+    }
+
+    public void deleteBook(Integer book_id){
+        Optional<Book> book = Optional.of(bookRepository.findById(book_id).orElseThrow());
+        bookRepository.delete(book.get());
+    }
+
     public BookDetails getBookDetails(Integer book_id){
         Optional<Book> book = Optional.of(bookRepository.findById(book_id).orElseThrow());
         return mapper.map(book.get(), BookDetails.class);
