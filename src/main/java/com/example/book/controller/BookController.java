@@ -1,20 +1,20 @@
 package com.example.book.controller;
 
 import com.example.book.domain.BookDetails;
+import com.example.book.domain.BookHandling;
 import com.example.book.entity.Category;
 import com.example.book.repository.BookRepository;
 import com.example.book.repository.CategoryRepository;
 import com.example.book.service.BookService;
 import com.example.book.service.CategoryService;
 import com.example.book.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -79,5 +79,30 @@ public class BookController {
         return "admin/book_details";
     }
 
+    @RequestMapping(path = "/admin/add-book", method = RequestMethod.GET)
+    public String addBook(Model model){
+        userService.updateModel(model);
+        bookService.updateBookInfoModel(model);
+        model.addAttribute("book", new BookHandling());
+        return "admin/add_book";
+    }
 
+    @RequestMapping(path = "/admin/add-book", method = RequestMethod.POST)
+    public String addBookForm(@ModelAttribute("book") @Valid BookHandling bookHandling, BindingResult result, Model model){
+        if(result.hasErrors()){
+            userService.updateModel(model);
+            bookService.updateBookInfoModel(model);
+            return "admin/add_book";
+        }
+        else if (bookRepository.findBookByTitle(bookHandling.getTitle()).isPresent()){
+            userService.updateModel(model);
+            bookService.updateBookInfoModel(model);
+            result.rejectValue("title",null,"Book title already exist.");
+            return "admin/add_book";
+        }
+        else {
+            bookService.configureBookBeforeAdding(bookHandling);
+            return "redirect:/admin/book-index";
+        }
+    }
 }

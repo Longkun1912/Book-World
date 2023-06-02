@@ -1,6 +1,7 @@
 package com.example.book.service;
 
 import com.example.book.domain.BookDetails;
+import com.example.book.domain.BookHandling;
 import com.example.book.entity.Book;
 import com.example.book.entity.Category;
 import com.example.book.repository.BookRepository;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -22,6 +24,7 @@ import java.util.stream.Collectors;
 public class BookService {
     private final ModelMapper mapper;
     private final BookRepository bookRepository;
+    private final CategoryRepository categoryRepository;
     private final CategoryService categoryService;
 
     public List<BookDetails> getFilteredBooks(Category category, LocalDate startDate, LocalDate endDate, Integer recommended_age){
@@ -48,6 +51,18 @@ public class BookService {
             mappedBooks.add(bookDetails);
         }
         return mappedBooks;
+    }
+
+    public void configureBookBeforeAdding(BookHandling bookHandling){
+        // Convert date from string
+        String published_date = bookHandling.getPublished_day();
+        LocalDate date = LocalDate.parse(published_date.trim(), DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+        // Map book entity and save to database
+        Book book = mapper.map(bookHandling, Book.class);
+        book.setCategory(categoryRepository.findCategoryByName(bookHandling.getCategory_name()).get());
+        book.setRecommended_age(Integer.parseInt(bookHandling.getRecommended_age()));
+        book.setPublished_date(date);
+        bookRepository.save(book);
     }
 
     public BookDetails getBookDetails(Integer book_id){
