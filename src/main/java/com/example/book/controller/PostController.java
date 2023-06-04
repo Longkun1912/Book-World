@@ -2,9 +2,12 @@ package com.example.book.controller;
 
 import com.example.book.domain.PostHandling;
 import com.example.book.service.PostService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.UUID;
 
@@ -14,8 +17,14 @@ public class PostController {
     private final PostService postService;
 
     @RequestMapping(path = "/admin/create-post", method = RequestMethod.POST)
-    public String createPost(@ModelAttribute("post_create") PostHandling postHandling) {
-        postService.saveNewPost(postHandling);
+    public String createPost(@ModelAttribute("post_create") @Valid PostHandling postHandling, BindingResult result, RedirectAttributes redirectAttributes) {
+        if (result.hasErrors()){
+            String message = "Error while creating new post. Validation failed.";
+            System.out.println(message);
+            redirectAttributes.addFlashAttribute("message", message);
+        } else {
+            postService.saveNewPost(postHandling);
+        }
         return "redirect:/admin/community";
     }
 

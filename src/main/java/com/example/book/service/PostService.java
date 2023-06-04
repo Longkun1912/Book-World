@@ -50,6 +50,9 @@ public class PostService {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userRepository.findUserByEmail(auth.getName()).get();
         Post post = mapper.map(postHandling, Post.class);
+        if (postHandling.getContent_image().isEmpty()){
+            post.setContent_image(null);
+        }
         post.setId(UUID.randomUUID());
         post.setCreator(user);
         post.setTitle(postHandling.getTitle());

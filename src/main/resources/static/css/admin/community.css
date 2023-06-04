@@ -152,6 +152,18 @@
   -webkit-text-fill-color: transparent;
 }
 
+#flash-message{
+    display: flex;
+    justify-content: center;
+    margin-top: -50px;
+    margin-left: 350px;
+    width: 600px;
+}
+
+#danger-message{
+    font-size: 20px;
+    margin-bottom: -1px;
+}
 
 
 

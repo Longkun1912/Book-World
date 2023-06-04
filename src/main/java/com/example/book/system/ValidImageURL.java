@@ -39,8 +39,8 @@ public @interface ValidImageURL {
 
         @Override
         public boolean isValid(String value, ConstraintValidatorContext context) {
-            if (value == null) {
-                return true; // Allow null values, if needed
+            if (value == null || value.isEmpty()) {
+                return true; // Allow empty or null values
             }
 
             // Check if the URL is valid
