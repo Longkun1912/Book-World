@@ -17,9 +17,11 @@ public class PostController {
     private final PostService postService;
 
     @RequestMapping(path = "/admin/create-post", method = RequestMethod.POST)
-    public String createPost(@ModelAttribute("post_create") @Valid PostHandling postHandling, BindingResult result, RedirectAttributes redirectAttributes) {
+    public String createPost(@ModelAttribute("post_create") @Valid PostHandling postHandling,
+                             BindingResult result, RedirectAttributes redirectAttributes) {
+        String message;
         if (result.hasErrors()){
-            String message = "Error while creating new post. Validation failed.";
+            message = "Error while creating new post. Validation failed.";
             System.out.println(message);
             redirectAttributes.addFlashAttribute("message", message);
         } else {
@@ -31,8 +33,11 @@ public class PostController {
     @RequestMapping(path = "/admin/edit-post/{id}", method = RequestMethod.POST)
     public String editPost(@PathVariable("id") UUID post_id,
                            @RequestParam("title") String title,
-                           @RequestParam("content_text") String content_text){
-        postService.saveUpdatedPost(post_id,title,content_text);
+                           @RequestParam("content_image") String content_image,
+                           @RequestParam("content_text") String content_text,
+                           RedirectAttributes redirectAttributes){
+        PostHandling postHandling = new PostHandling(post_id,title,content_text,content_image);
+        postService.configureUpdatedPostBeforeSaving(postHandling,redirectAttributes);
         return "redirect:/admin/community";
     }
 

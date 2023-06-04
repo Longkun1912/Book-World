@@ -24,7 +24,7 @@
             <i class='bx bx-menu sidebarBtn'></i>
             <span>Community</span>
         </div>
-        <button id="personal-profile" th:onclick="window.location.href='/admin/logout'">
+        <button id="personal-profile">
             <span style="border-right: 1px solid #ccc; padding-right: 10px;" th:text="${user_detail.username}"></span>
             <span id="personal-role" th:text="${role}"></span>
         </button>

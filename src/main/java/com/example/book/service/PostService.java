@@ -7,22 +7,29 @@ import com.example.book.entity.Post;
 import com.example.book.entity.User;
 import com.example.book.repository.PostRepository;
 import com.example.book.repository.UserRepository;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Valid;
+import jakarta.validation.Validator;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 
 @Service
 @RequiredArgsConstructor
 public class PostService {
+    private final Validator validator;
     private final ModelMapper mapper;
     private final PostRepository postRepository;
     private final UserRepository userRepository;
@@ -61,12 +68,25 @@ public class PostService {
         postRepository.save(post);
     }
 
-    public void saveUpdatedPost(UUID post_id, String title, String content_text) {
-        Post post = postRepository.findById(post_id).orElseThrow();
-        post.setTitle(title);
-        post.setContent_text(content_text);
-        post.setCreated_time(LocalDateTime.now());
-        postRepository.save(post);
+    public void configureUpdatedPostBeforeSaving(@Valid PostHandling postHandling, RedirectAttributes redirectAttributes) {
+        Set<ConstraintViolation<PostHandling>> violations = validator.validate(postHandling);
+        if (!violations.isEmpty()){
+            String message = "Error while updating post. Validation failed.";
+            System.out.println(message);
+            redirectAttributes.addFlashAttribute("message", message);
+        }
+        else {
+            Post post = postRepository.findById(postHandling.getId()).orElseThrow();
+            post.setTitle(postHandling.getTitle());
+            post.setContent_text(postHandling.getContent_text());
+            if (postHandling.getContent_image().isEmpty()){
+                post.setContent_image(null);
+            } else {
+                post.setContent_image(postHandling.getContent_image());
+            }
+            post.setCreated_time(LocalDateTime.now());
+            postRepository.save(post);
+        }
     }
 
     public void deletePost(UUID post_id){

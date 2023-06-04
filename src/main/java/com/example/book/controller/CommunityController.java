@@ -63,4 +63,9 @@ public class CommunityController {
         commentService.writeCommentForPost(post_id, comment_text);
         return "redirect:/admin/community";
     }
+
+    @RequestMapping(value = "/admin/edit-comment/{id}", method = RequestMethod.POST)
+    public String editComment(@PathVariable("id") Integer comment_id, @RequestParam("comment") String comment_text){
+        return "redirect:/admin/community";
+    }
 }
