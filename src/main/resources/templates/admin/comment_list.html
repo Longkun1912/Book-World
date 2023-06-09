@@ -47,9 +47,18 @@
                         </div>
                       </div>
                       <div class="comment-handles">
-                        <a class="handle-cmt">Reply</a>
-                        <a class="handle-cmt" style="margin-left: 10px;">Edit</a>
-                        <a class="handle-cmt" style="margin-left: 10px;">Delete</a>
+                        <button class="handle-cmt" data-toggle="modal"
+                                th:data-target="'#replyComment-' + ${comment.id}">Reply</button>
+                        <button class="handle-cmt" data-toggle="modal"
+                                th:data-target="'#editComment-' + ${comment.id}" style="margin-left: 10px;"
+                        >
+                          Edit
+                        </button>
+                        <button class="handle-cmt" style="margin-left: 10px;"
+                                th:onclick="'window.location.href=\'' + @{/admin/delete-comment/} + ${comment.id} + '\''"
+                        >
+                          Delete
+                        </button>
                       </div>
                       <ul style="list-style: none;">
                         <li th:each="reply : ${comment.replies}">
@@ -73,14 +82,24 @@
                             </div>
                           </div>
                           <div class="reply-handles">
-                            <a class="handle-rep">Reply</a>
-                            <a class="handle-rep" style="margin-left: 10px;">Edit</a>
-                            <a class="handle-rep" style="margin-left: 10px;">Delete</a>
+                            <button class="handle-rep" data-toggle="modal"
+                                    th:data-target="'#replyComment-' + ${comment.id}">Reply</button>
+                            <button class="handle-rep" data-toggle="modal" style="margin-left: 10px;"
+                                    th:data-target="'#editReply-' + ${reply.id}" >
+                              Edit
+                            </button>
+                            <button class="handle-rep" style="margin-left: 10px;"
+                                    th:onclick="'window.location.href=\'' + @{/admin/delete-reply/} + ${reply.id} + '\''">
+                              Delete
+                            </button>
                           </div>
+                          <div th:replace="admin/edit_reply :: edit-reply" th:with="reply=${reply}"></div>
                         </li>
                       </ul>
                     </div>
                   </div>
+                  <div th:replace="admin/edit_comment :: edit-comment" th:with="comment=${comment}"></div>
+                  <div th:replace="admin/reply_form :: reply-form" th:with="comment=${comment}"></div>
                 </li>
               </ul>
             </div>

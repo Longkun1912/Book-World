@@ -29,14 +29,69 @@ public class CommentService {
     private final PostRepository postRepository;
     private final ModelMapper mapper;
 
-    public void writeCommentForPost(UUID post_id, String comment_text){
+    public Comment writeCommentForPost(UUID post_id, String comment_text){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userRepository.findUserByEmail(auth.getName()).get();
         Optional<Post> post = postRepository.findById(post_id);
         Comment comment = new Comment(user,post.get());
         comment.setText(comment_text);
         comment.setCreated_time(LocalDateTime.now());
-        commentRepository.save(comment);
+        return commentRepository.save(comment);
+    }
+
+    public Comment updateCommentForPost(Integer comment_id, String comment_text){
+        Comment comment = commentRepository.findById(comment_id).orElseThrow();
+        comment.setText(comment_text);
+        comment.setCreated_time(LocalDateTime.now());
+        return commentRepository.save(comment);
+    }
+
+    public Comment updateReplyForComment(Integer reply_id, String reply_text){
+        Optional<Comment> existing_reply = commentRepository.findCommentByID(reply_id);
+        if (existing_reply.isPresent()){
+            Comment reply = existing_reply.get();
+            System.out.println(reply.getId());
+            reply.setText(reply_text);
+            reply.setCreated_time(LocalDateTime.now());
+            return commentRepository.save(reply);
+        }
+        else {
+            System.out.println("Reply not found");
+            return null;
+        }
+    }
+
+    public void deleteComment(Integer comment_id){
+        Comment comment = commentRepository.findById(comment_id).orElseThrow();
+        commentRepository.delete(comment);
+    }
+
+    public void deleteReply(Integer reply_id){
+        Optional<Comment> reply = commentRepository.findCommentByID(reply_id);
+        if (reply.isPresent()){
+            commentRepository.delete(reply.get());
+        }
+        else {
+            System.out.println("Reply not found");
+        }
+    }
+
+    public Comment saveReply(Integer comment_id, String reply){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userRepository.findUserByEmail(auth.getName()).get();
+        Optional<Comment> comment = commentRepository.findCommentByID(comment_id);
+        if (comment.isPresent()){
+            Comment reply_comment = new Comment();
+            reply_comment.setUser(user);
+            reply_comment.setParent(comment.get());
+            reply_comment.setText(reply);
+            reply_comment.setCreated_time(LocalDateTime.now());
+            return commentRepository.save(reply_comment);
+        }
+        else {
+            System.out.println("The current comment you are reply to are not exist.");
+            return null;
+        }
     }
 
     // Get top-level comments for a post

@@ -3,6 +3,7 @@ package com.example.book.controller;
 import com.example.book.domain.CommentDetails;
 import com.example.book.domain.PostDetails;
 import com.example.book.domain.PostHandling;
+import com.example.book.entity.Comment;
 import com.example.book.service.CommentService;
 import com.example.book.service.PostService;
 import com.example.book.service.RateService;
@@ -60,12 +61,37 @@ public class CommunityController {
 
     @RequestMapping(value = "/admin/write-comment/{id}", method = RequestMethod.POST)
     public String writeComment(@PathVariable("id") UUID post_id, @RequestParam("comment") String comment_text){
-        commentService.writeCommentForPost(post_id, comment_text);
+        Comment comment = commentService.writeCommentForPost(post_id, comment_text);
         return "redirect:/admin/community";
     }
 
     @RequestMapping(value = "/admin/edit-comment/{id}", method = RequestMethod.POST)
     public String editComment(@PathVariable("id") Integer comment_id, @RequestParam("comment") String comment_text){
+        Comment updated_comment = commentService.updateCommentForPost(comment_id,comment_text);
+        return "redirect:/admin/community";
+    }
+
+    @RequestMapping(value = "/admin/delete-comment/{id}", method = RequestMethod.GET)
+    public String deleteComment(@PathVariable("id") Integer comment_id){
+        commentService.deleteComment(comment_id);
+        return "redirect:/admin/community";
+    }
+
+    @RequestMapping(value = "/admin/reply/{id}", method = RequestMethod.POST)
+    public String replyComment(@PathVariable("id") Integer comment_id, @RequestParam("reply") String reply){
+        Comment reply_comment = commentService.saveReply(comment_id, reply);
+        return "redirect:/admin/community";
+    }
+
+    @RequestMapping(value = "/admin/edit-reply/{id}", method = RequestMethod.POST)
+    public String editReply(@PathVariable("id") Integer reply_id, @RequestParam("reply") String reply_text){
+        Comment updated_reply = commentService.updateReplyForComment(reply_id, reply_text);
+        return "redirect:/admin/community";
+    }
+
+    @RequestMapping(value = "/admin/delete-reply/{id}", method = RequestMethod.GET)
+    public String deleteReply(@PathVariable("id") Integer reply_id){
+        commentService.deleteReply(reply_id);
         return "redirect:/admin/community";
     }
 }
