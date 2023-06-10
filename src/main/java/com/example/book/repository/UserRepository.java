@@ -19,6 +19,10 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     @Query("SELECT u from User u WHERE u.username =:username")
     Optional<User> findUserByName(@Param("username") String username);
 
+    @Query("SELECT u from User u WHERE (u.username LIKE CONCAT('%', COALESCE(:username, ''), '%')" +
+            "OR :username IS NULL)")
+    List<User> searchUserByName(@Param("username") String username);
+
     @Query("SELECT u from User u WHERE u.phone_number =:phone_number")
     Optional<User> findUserByPhoneNumber(@Param("phone_number") String phone_number);
 

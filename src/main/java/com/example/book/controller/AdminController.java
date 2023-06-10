@@ -5,13 +5,10 @@ import com.example.book.domain.UserInfoDetails;
 import com.example.book.entity.User;
 import com.example.book.repository.UserRepository;
 import com.example.book.service.UserService;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -30,7 +27,7 @@ public class AdminController {
     private final UserService userService;
 
     @GetMapping(value = "/dashboard")
-    public String register(Model model){
+    public String adminDashboard(Model model){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         System.out.println("Authentication: "+auth);
 
@@ -137,14 +134,5 @@ public class AdminController {
         Optional<User> user = Optional.of(userRepository.findById(user_id).orElseThrow());
         userRepository.delete(user.get());
         return "redirect:/admin/user-index";
-    }
-
-    @GetMapping(value = "/logout")
-    public String logOut(HttpServletRequest request, HttpServletResponse response){
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null) {
-            new SecurityContextLogoutHandler().logout(request, response, auth);
-        }
-        return "redirect:/";
     }
 }

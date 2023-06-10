@@ -26,7 +26,7 @@ public class Comment {
 
     // A comment can have one or many replies of itself
     // So the comment that contain its replies is called a parent comment
-    @OneToMany(mappedBy = "parent")
+    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
     private List<Comment> replies;
 
     // If a comment is a top-level comment, the parent_id will be null

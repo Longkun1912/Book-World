@@ -65,6 +65,9 @@ public class User {
     @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL)
     private List<Post> posts = new ArrayList<>();
 
+    @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL)
+    private List<Message> messages;
+
     // An user can share many posts to another user and vice-versa
     @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(

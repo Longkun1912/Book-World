@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -25,4 +26,7 @@ public class Chat {
     @ManyToOne
     @JoinColumn(name = "user2", nullable = false)
     private User user2;
+
+    @OneToMany(mappedBy = "chat", cascade = CascadeType.ALL)
+    private List<Message> messages;
 }
