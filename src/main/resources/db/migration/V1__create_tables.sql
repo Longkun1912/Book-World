@@ -79,6 +79,7 @@ create table book_favorite_details (
 
 create table chats (
     id uuid primary key,
+    created_time timestamp,
     user1 uuid not null,
     user2 uuid not null,
     foreign key (user1) references users(id),

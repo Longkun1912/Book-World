@@ -35,12 +35,6 @@ The change in title would also be reflected in the first film when it came out i
 timestamp '2023-01-03 08:12:05','a00e70ea-c6c2-11ed-afa1-0242ac120002');
 
 ---
----Insert to chats entity
----
-insert into chats (id,user1,user2) values
-('38eacdbe-cbf9-11ed-afa1-0242ac120002','a00e70ea-c6c2-11ed-afa1-0242ac120002','6e7cc348-cbf8-11ed-afa1-0242ac120002');
-
----
 ---Insert to favorites entity
 ---
 insert into favorites (id,name,created_time,user_favorite) values

@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -16,6 +17,9 @@ import java.util.UUID;
 public class Chat {
     @Id
     private UUID id;
+
+    @Column
+    private LocalDateTime created_time;
 
     // One user can have many chats with different users
     // One user can have only one chat to one specific user
