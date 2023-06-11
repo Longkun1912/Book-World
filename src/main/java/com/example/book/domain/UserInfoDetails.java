@@ -26,5 +26,11 @@ public class UserInfoDetails {
     private String status;
 
     @JsonProperty
+    private String latest_message;
+
+    @JsonProperty
+    private UUID chat_id;
+
+    @JsonProperty
     private String last_updated;
 }

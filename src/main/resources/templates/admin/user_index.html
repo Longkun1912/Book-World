@@ -51,9 +51,16 @@
         <td th:text="${user.phone_number}"></td>
         <td th:text="${user.status}"></td>
         <td th:text="${user.last_updated}"></td>
-        <td>
-          <a type="button" class="btn btn-primary" th:href="@{/admin/edit-user/{id}(id=@{${user.id}})}">Edit</a>
-          <a type="button" class="btn btn-danger" th:href="@{/admin/delete-user/{id}(id=@{${user.id}})}">Delete</a>
+        <td style="max-width: 200px;">
+          <a type="button" style="margin-left: 10px;" class="btn btn-primary" th:href="@{/admin/edit-user/{id}(id=@{${user.id}})}">
+            Edit
+          </a>
+          <a type="button" class="btn btn-secondary" th:href="@{/admin/open-chat/{id}(id=@{${user.id}})}">
+            Chat
+          </a>
+          <a type="button" class="btn btn-danger" th:href="@{/admin/delete-user/{id}(id=@{${user.id}})}">
+            Delete
+          </a>
         </td>
       </tr>
       </tbody>

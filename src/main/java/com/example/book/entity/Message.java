@@ -30,4 +30,16 @@ public class Message {
     @ManyToOne
     @JoinColumn(name = "chat_id", nullable = false)
     private Chat chat;
+
+    public Message(User sender, String text, LocalDateTime created_time){
+        this.sender = sender;
+        this.text = text;
+        this.created_time = created_time;
+    }
+
+    public Message(User sender, Chat chat, LocalDateTime created_time){
+        this.sender = sender;
+        this.chat = chat;
+        this.created_time = created_time;
+    }
 }
