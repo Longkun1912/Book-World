@@ -9,11 +9,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
 public interface MessageRepository extends JpaRepository<Message, Integer> {
     @Query("SELECT m FROM Message m WHERE m.id = :message_id")
-    Optional<Message> findMessageByID(@RequestParam("message_id") Integer message_id);
+    Optional<Message> findMessageByID(@RequestParam("message_id") UUID message_id);
 
     @Query("SELECT m from Message m WHERE m.chat =:chat ORDER BY m.created_time ASC")
     List<Message> getMessageInChat(@RequestParam("chat") Chat chat);

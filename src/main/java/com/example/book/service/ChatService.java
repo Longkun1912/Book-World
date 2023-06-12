@@ -35,6 +35,9 @@ public class ChatService {
         Optional<Chat> existed_chat = chatRepository.findChatByUsers(current_user.getId(), user_id);
         if (existed_chat.isPresent()){
             System.out.println("Chat0 is present.");
+            Chat chat = existed_chat.get();
+            chat.setLast_access(LocalDateTime.now());
+            chatRepository.save(chat);
             return existed_chat.get();
         }
         else {
@@ -43,7 +46,26 @@ public class ChatService {
             Chat chat = new Chat(current_user, other);
             chat.setId(UUID.randomUUID());
             chat.setCreated_time(LocalDateTime.now());
+            chat.setLast_access(LocalDateTime.now());
             return chatRepository.save(chat);
+        }
+    }
+
+    public User getLastContactMember(){
+        User member;
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User current_user = userRepository.findUserByEmail(auth.getName()).orElseThrow();
+        Chat chat = chatRepository.getLastAccessedChat();
+        if (chat.getUser1() != current_user){
+            member = chat.getUser1();
+            return member;
+        }
+        else if (chat.getUser2() != current_user) {
+            member = chat.getUser2();
+            return member;
+        }
+        else {
+            return null;
         }
     }
 
@@ -69,20 +91,24 @@ public class ChatService {
 
     public List<UserInfoDetails> memberListResults(User current_user,List<User> members, List<UserInfoDetails> memberDetails){
         for (User member : members){
-            Optional<Chat> chat = chatRepository.findChatByUsers(current_user.getId(), member.getId());
-            if (chat.isPresent()){
+            Optional<Chat> existing_chat = chatRepository.findChatByUsers(current_user.getId(), member.getId());
+            if (existing_chat.isPresent()){
                 System.out.println("Chat1 is present.");
-                Message message = messageRepository.getLatestMessageInChat(chat.get());
+                Chat chat = existing_chat.get();
+                Message message = messageRepository.getLatestMessageInChat(chat);
                 if (message == null){
-                    message = new Message(current_user, chat.get(), LocalDateTime.now());
+                    message = new Message(current_user, chat, LocalDateTime.now());
+                    message.setId(UUID.randomUUID());
                     message.setText("Let's start a chat.");
                     messageRepository.save(message);
                 }
                 UserInfoDetails converted_member = mapper.map(member, UserInfoDetails.class);
-                converted_member.setChat_id(chat.get().getId());
+                converted_member.setChat_id(chat.getId());
                 String limit_message = limitMessageCharacters(message.getText(), 30);
                 converted_member.setLatest_message(limit_message);
                 memberDetails.add(converted_member);
+                chat.setLast_access(LocalDateTime.now());
+                chatRepository.save(chat);
             }
             else {
                 System.out.println("Chat1 is not present.");
@@ -96,10 +122,13 @@ public class ChatService {
         User current_user = userRepository.findUserByEmail(auth.getName()).orElseThrow();
         List<Message> messages = new ArrayList<>();
         Optional<User> member = userRepository.findUserById(member_id);
-        Optional<Chat> chat = chatRepository.findChatByUsers(current_user.getId(),member_id);
-        if (chat.isPresent()){
+        Optional<Chat> existing_chat = chatRepository.findChatByUsers(current_user.getId(),member_id);
+        if (existing_chat.isPresent()){
             System.out.println("Chat2 is present.");;
-            messages = messageRepository.getMessageInChat(chat.get());
+            Chat chat = existing_chat.get();
+            messages = messageRepository.getMessageInChat(chat);
+            chat.setLast_access(LocalDateTime.now());
+            chatRepository.save(chat);
         }
         else {
             System.out.println("Chat2 is not present.");
@@ -119,10 +148,14 @@ public class ChatService {
     public Message saveMessage(UUID member_id, String message_text){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User current_user = userRepository.findUserByEmail(auth.getName()).orElseThrow();
-        Optional<Chat> chat = chatRepository.findChatByUsers(current_user.getId(), member_id);
-        if (chat.isPresent()){
+        Optional<Chat> existing_chat = chatRepository.findChatByUsers(current_user.getId(), member_id);
+        if (existing_chat.isPresent()){
+            Chat chat = existing_chat.get();
             Message message = new Message(current_user,message_text, LocalDateTime.now());
-            message.setChat(chat.get());
+            message.setId(UUID.randomUUID());
+            message.setChat(chat);
+            chat.setLast_access(LocalDateTime.now());
+            chatRepository.save(chat);
             return messageRepository.save(message);
         }
         else {
@@ -151,23 +184,23 @@ public class ChatService {
         }
     }
 
-    public Message updateMessage(Integer message_id, String message_text){
+    public Message updateMessage(UUID message_id, String message_text) {
         Optional<Message> existing_message = messageRepository.findMessageByID(message_id);
-        if (existing_message.isPresent()){
+        if (existing_message.isPresent()) {
             Message message = existing_message.get();
             System.out.println("Message found with id " + message.getId());
             System.out.println("Message is present with sender " + message.getSender().getUsername());
             message.setText(message_text);
             message.setCreated_time(LocalDateTime.now());
             return messageRepository.save(message);
-        }
-        else {
+        } else {
             System.out.println("Message is not present");
             return null;
         }
     }
 
-    public void deleteMessage(Integer message_id){
+
+    public void deleteMessage(UUID message_id){
         Optional<Message> existing_message = messageRepository.findMessageByID(message_id);
         existing_message.ifPresent(messageRepository::delete);
     }

@@ -15,4 +15,6 @@ public interface ChatRepository extends JpaRepository<Chat, UUID> {
             "OR (c.user1.id = :user2_id AND c.user2.id = :user1_id)")
     Optional<Chat> findChatByUsers(@RequestParam("user1_id") UUID user1_id, @RequestParam("user2_id") UUID user2_id);
 
+    @Query("SELECT c FROM Chat c WHERE c.last_access = (SELECT MAX(c2.last_access) FROM Chat c2)")
+    Chat getLastAccessedChat();
 }

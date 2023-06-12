@@ -21,6 +21,9 @@ public class Chat {
     @Column
     private LocalDateTime created_time;
 
+    @Column
+    private LocalDateTime last_access;
+
     // One user can have many chats with different users
     // One user can have only one chat to one specific user
     @ManyToOne

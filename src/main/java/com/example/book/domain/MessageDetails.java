@@ -5,11 +5,13 @@ import com.example.book.entity.User;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
+import java.util.UUID;
+
 
 @Data
 public class MessageDetails {
     @JsonProperty
-    private int id;
+    private UUID id;
 
     @JsonProperty
     private String text;

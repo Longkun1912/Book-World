@@ -7,7 +7,7 @@
 </head>
 <body>
 <div th:fragment="edit-message">
-  <div class="modal fade" id="editMessage" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade" th:id="'editMessage' + ${message.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content" style="width: 120%;">
         <form th:action="@{/admin/edit-message/{id}(id=${message.id})}" th:method="post">

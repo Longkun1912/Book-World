@@ -93,6 +93,7 @@
 
                     <ul class="list-unstyled" id="message-container">
                         <li th:each="message : ${messages}" class="d-flex justify-content-between mb-4">
+                            <div th:replace="admin/edit_message :: edit-message" th:with="message=${message}"></div>
                             <div th:classappend="${message.sender == user_detail ? 'card-right' : 'card-left'}">
                                 <div class="card" style="max-width: 400px;">
                                     <div class="card-header d-flex justify-content-between p-3" style="width: 400px;">
@@ -110,12 +111,11 @@
                                                 ...
                                             </button>
                                             <div class="dropdown-menu">
-                                                <button class="dropdown-item edit-message-button" data-toggle="modal" data-target="#editMessage">
+                                                <button class="dropdown-item edit-message-button" data-toggle="modal" th:data-target="'#editMessage' + ${message.id}">
                                                     Edit message
                                                 </button>
                                                 <a type="button" class="dropdown-item" th:href="@{/admin/delete-message/{id}(id=@{${message.id}})}">Delete message</a>
                                             </div>
-                                            <div th:replace="admin/edit_message :: edit-message" th:with="message=${message}"></div>
                                         </div>
                                     </div>
                                     <div class="card-body" style="width: 400px;">

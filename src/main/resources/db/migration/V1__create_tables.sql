@@ -80,6 +80,7 @@ create table book_favorite_details (
 create table chats (
     id uuid primary key,
     created_time timestamp,
+    last_access timestamp,
     user1 uuid not null,
     user2 uuid not null,
     foreign key (user1) references users(id),
@@ -87,7 +88,7 @@ create table chats (
 );
 
 create table messages (
-    id serial primary key,
+    id uuid primary key,
     text varchar(500),
     created_time timestamp,
     sender_id uuid not null,

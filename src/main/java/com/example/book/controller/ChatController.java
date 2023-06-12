@@ -4,6 +4,7 @@ import com.example.book.domain.MessageDetails;
 import com.example.book.domain.UserInfoDetails;
 import com.example.book.entity.Chat;
 import com.example.book.entity.Message;
+import com.example.book.entity.User;
 import com.example.book.service.ChatService;
 import com.example.book.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,7 @@ public class ChatController {
     @RequestMapping(value = "/admin/message-index", method = RequestMethod.GET)
     public String chatList(Model model,@RequestParam(required = false) String username){
         userService.addUserAttributesToModel(model);
+        User last_member = chatService.getLastContactMember();
         List<UserInfoDetails> members;
         if (username != null && !username.isEmpty()){
             members = chatService.getFilteredMembers(username);
@@ -31,7 +33,10 @@ public class ChatController {
         else {
             members = chatService.getAllMembers();
         }
+        List<MessageDetails> messages = chatService.getMessageInChat(last_member.getId());
+        model.addAttribute("messages", messages);
         model.addAttribute("members", members);
+        model.addAttribute("member_uid", last_member.getId());
         return "admin/message_index";
     }
 
@@ -75,13 +80,15 @@ public class ChatController {
     }
 
     @RequestMapping(value = "/admin/edit-message/{id}", method = RequestMethod.POST)
-    public String editMessage(@PathVariable("id") Integer message_id, @RequestParam("message_text") String message_text){
+    public String editMessage(@PathVariable("id") UUID message_id, @RequestParam("message_text") String message_text){
+        System.out.println("Edit message id: "+ message_id);
         Message message = chatService.updateMessage(message_id, message_text);
         return "redirect:/admin/message-index";
     }
 
     @RequestMapping(value = "/admin/delete-message/{id}", method = RequestMethod.GET)
-    public String deleteMessage(@PathVariable("id") Integer message_id){
+    public String deleteMessage(@PathVariable("id") UUID message_id){
+        System.out.println("Delete message id: " + message_id);
         chatService.deleteMessage(message_id);
         return "redirect:/admin/message-index";
     }
