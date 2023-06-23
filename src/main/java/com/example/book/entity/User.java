@@ -68,6 +68,15 @@ public class User {
     @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL)
     private List<Message> messages;
 
+    // An user can have many friends
+    @ManyToMany
+    @JoinTable(
+            name = "user_friends",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "friend_id")
+    )
+    private List<User> friends;
+
     // An user can share many posts to another user and vice-versa
     @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(

@@ -26,7 +26,8 @@ insert into comments (text,created_time,user_comment,post_comment) values
 ('Well done sir.',timestamp '2023-01-01 18:12:53','6e7cc348-cbf8-11ed-afa1-0242ac120002','ac964e56-dc4c-11ed-afa1-0242ac120002'),
 ('Couldn''t agree more.',timestamp '2023-01-01 15:10:52','a00e6d84-c6c2-11ed-afa1-0242ac120002','ac964e56-dc4c-11ed-afa1-0242ac120002'),
 
-('Can i get the source?',timestamp '2022-08-09 15:10:52','6e7cc348-cbf8-11ed-afa1-0242ac120002','77e36764-dc49-11ed-afa1-0242ac120002');
+('Can i get the source?',timestamp '2022-08-09 15:10:52','6e7cc348-cbf8-11ed-afa1-0242ac120002','77e36764-dc49-11ed-afa1-0242ac120002'),
+('Got it.',timestamp '2022-08-09 18:10:52','abd271cc-1192-11ee-be56-0242ac120002','77e36764-dc49-11ed-afa1-0242ac120002');
 
 ---
 ---Insert to replies for comments

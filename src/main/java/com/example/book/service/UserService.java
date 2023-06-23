@@ -98,6 +98,62 @@ public class UserService implements UserDetailsService {
         return userInfoDetailsList;
     }
 
+    //Show friend list of a current logged user
+    public List<UserInfoDetails> getFriendListByUser(String friend_name){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userRepository.findUserByEmail(auth.getName()).get();
+        List<User> friends = new ArrayList<>();
+        if (friend_name != null && !friend_name.isEmpty()){
+            friends = userRepository.searchFriendListByUser(user.getId(),friend_name);
+        }
+        else {
+            friends = userRepository.findFriendListByUser(user.getId());
+        }
+        List<UserInfoDetails> friend_details = new ArrayList<>();
+        for (User friend : friends){
+            UserInfoDetails friend_detail = mapper.map(friend, UserInfoDetails.class);
+            friend_detail.setRole_name(friend.getRole().getName());
+            friend_details.add(friend_detail);
+        }
+        return friend_details;
+    }
+
+    // Show other users of the system who are not friend of the logged user
+    public List<UserInfoDetails> getOtherUsers(String username){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User current_user = userRepository.findUserByEmail(auth.getName()).orElseThrow();
+        List<User> users = new ArrayList<>();
+        if (username != null && !username.isEmpty()){
+            users = userRepository.searchNonFriendUsersByUserIdAndLoggedInUserId(current_user.getId(), username);
+        }
+        else{
+            users = userRepository.findNonFriendUsersByUserIdAndLoggedInUserId(current_user.getId());
+        }
+        List<UserInfoDetails> system_users = new ArrayList<>();
+        for (User user : users){
+            UserInfoDetails userInfoDetails = mapper.map(user, UserInfoDetails.class);
+            userInfoDetails.setRole_name(user.getRole().getName());
+            system_users.add(userInfoDetails);
+        }
+        return system_users;
+    }
+
+    public User addFriend(UUID friend_id){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User current_user = userRepository.findUserByEmail(auth.getName()).orElseThrow();
+        User friend = userRepository.findUserById(friend_id).orElseThrow();
+        current_user.getFriends().add(friend);
+        return userRepository.save(current_user);
+    }
+
+    public User removeFriend(UUID friend_id){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User current_user = userRepository.findUserByEmail(auth.getName()).orElseThrow();
+        User friend = userRepository.findUserById(friend_id).orElseThrow();
+        current_user.getFriends().remove(friend);
+        return userRepository.save(current_user);
+    }
+
     public List<String> getUserStatus(){
         List<String> status = new ArrayList<>();
         status.add("Enabled");

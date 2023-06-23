@@ -32,5 +32,8 @@ public class UserInfoDetails {
     private UUID chat_id;
 
     @JsonProperty
+    private String role_name;
+
+    @JsonProperty
     private String last_updated;
 }

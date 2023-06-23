@@ -22,6 +22,7 @@ public class ChatController {
     private final UserService userService;
     private final ChatService chatService;
 
+    // Messenger for admin
     @RequestMapping(value = "/admin/message-index", method = RequestMethod.GET)
     public String chatList(Model model,@RequestParam(required = false) String username){
         userService.addUserAttributesToModel(model);
@@ -38,6 +39,12 @@ public class ChatController {
         model.addAttribute("members", members);
         model.addAttribute("member_uid", last_member.getId());
         return "admin/message_index";
+    }
+
+    //Messenger for user
+    @RequestMapping(value = "/user/message-index", method = RequestMethod.GET)
+    public String messageList(Model model, @RequestParam(required = false) String username){
+        return "user/chat_index";
     }
 
     @RequestMapping(value = "/admin/message-box/{id}", method = RequestMethod.GET)

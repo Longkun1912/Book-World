@@ -9,11 +9,17 @@ create table users (
     image_url text,
     email varchar(200),
     phone_number varchar(11),
-    status varchar(8),
+    status varchar(10),
     last_updated timestamp,
     password varchar(200),
     user_role int not null,
     foreign key(user_role) references roles(id)
+);
+
+create table user_friends(
+    user_id uuid references users(id),
+    friend_id uuid references users(id),
+    primary key (user_id, friend_id)
 );
 
 create table categories (

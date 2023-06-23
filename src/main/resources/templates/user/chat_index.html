@@ -1,10 +1,138 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="UTF-8" />
+    <title>Main menu</title>
+    <link rel="stylesheet" th:href="@{/css/home.css}" />
+    <link rel="stylesheet" th:href="@{/css/user/message.css}" />
+    <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+            rel="stylesheet"
+    />
+    <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.css"
+            rel="stylesheet"
+    />
+    <script
+            type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.js"
+    ></script>
 </head>
 <body>
+<div th:replace="user/home_bar :: userHomepage"></div>
+<header>
+    <section>
+        <div
+                id="intro"
+                class="bg-image"
+                style="
+            background-image: url('https://i.pinimg.com/736x/23/cb/71/23cb7143f892c49537c8a55f5ee21988.jpg');
+            height: 100vh;
+          "
+        >
+            <div class="mask" style="background-color: rgba(0, 0, 0, 0.2)">
+                <div class="container d-flex justify-content-center align-items-center h-100">
+                    <div class="message-container">
+                        <section style="background-color: #eee;">
+                            <div class="container py-5">
 
+                                <div class="row">
+
+                                    <div class="col-md-6 col-lg-5 col-xl-4 mb-4 mb-md-0">
+
+                                        <h5 class="font-weight-bold mb-3 text-center text-lg-start">Member</h5>
+
+                                        <div class="card" id="member-list">
+                                            <div class="card-body">
+
+                                                <ul class="list-unstyled mb-0">
+                                                    <li th:each="member : ${members}" class="p-2 border-bottom" style="display: flex;">
+                                                        <a th:href="@{/admin/message-box/{id}(id=@{${member.id}})}" class="d-flex justify-content-between" style="flex-basis: 90%;">
+                                                            <div class="d-flex flex-row">
+                                                                <img th:src="${member.image_url}" alt="avatar" class="member-avatar">
+                                                                <div class="pt-1" style="max-width: 150px;">
+                                                                    <p class="fw-bold mb-0" th:text="${member.username}"></p>
+                                                                    <p style="margin-top: 5px;" class="small text-muted long-message" th:text="${member.latest_message}"></p>
+                                                                </div>
+                                                            </div>
+                                                        </a>
+                                                        <div class="btn-group dropright" id="chat-actions">
+                                                            <button id="delete-chat" type="button" class="btn btn-secondary dropdown-toggle border-0 bg-transparent" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                ...
+                                                            </button>
+                                                            <div class="dropdown-menu" id="delete-option">
+                                                                <a type="button" class="dropdown-item" th:href="@{/admin/delete-chat/{id}(id=@{${member.chat_id}})}">Delete chat</a>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-md-6 col-lg-7 col-xl-8">
+
+                                        <ul class="list-unstyled" id="message-container">
+                                            <li th:each="message : ${messages}" class="d-flex justify-content-between mb-4">
+                                                <div th:replace="admin/edit_message :: edit-message" th:with="message=${message}"></div>
+                                                <div th:classappend="${message.sender == user_detail ? 'card-right' : 'card-left'}">
+                                                    <div class="card" style="max-width: 400px;">
+                                                        <div class="card-header d-flex justify-content-between p-3" style="width: 400px;">
+                                                            <img th:src="${message.sender.image_url}" alt="avatar"
+                                                                 class="rounded-circle d-flex align-self-start me-3 shadow-1-strong" id="sender-avatar">
+                                                            <div class="sender-info">
+                                                                <p class="fw-bold mb-0" th:text="${message.sender.username}"></p>
+                                                                <p class="text-muted small mb-0" style="margin-top: 10px;">
+                                                                    <i class="far fa-clock"></i>
+                                                                    <span th:text="${message.last_updated}"></span>
+                                                                </p>
+                                                            </div>
+                                                            <div class="btn-group dropright" id="message-actions">
+                                                                <button id="message-options" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                    ...
+                                                                </button>
+                                                                <div class="dropdown-menu">
+                                                                    <button class="dropdown-item edit-message-button" data-toggle="modal" th:data-target="'#editMessage' + ${message.id}">
+                                                                        Edit message
+                                                                    </button>
+                                                                    <a type="button" class="dropdown-item" th:href="@{/admin/delete-message/{id}(id=@{${message.id}})}">Delete message</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="card-body" style="width: 400px;">
+                                                            <p class="mb-0" th:text="${message.text}"></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+
+                                        <form th:action="@{/admin/send-message/{id}(id=@{${member_uid}})}" method="post">
+                                            <div class="bg-white mb-3">
+                                                <div class="form-outline">
+                                                    <textarea name="message_text" class="form-control" id="message-text" rows="4"></textarea>
+                                                    <label class="form-label" for="message-text">Message</label>
+                                                </div>
+                                            </div>
+                                            <button type="submit" class="btn btn-info btn-rounded float-end">Send</button>
+                                            <div th:if="${message}" class="alert alert-warning" id="flash-message">
+                                                <h1 id="warning-message" th:text="${message}"></h1>
+                                            </div>
+                                        </form>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</header>
 </body>
 </html>

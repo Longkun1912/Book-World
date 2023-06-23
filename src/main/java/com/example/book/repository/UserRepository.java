@@ -31,4 +31,21 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 
     @Query("SELECT u from User u WHERE (u.role =:role)")
     List<User> findUserByRole(@Param("role") Role role);
+
+    @Query("SELECT u.friends from User u WHERE u.id =:id")
+    List<User> findFriendListByUser(@Param("id") UUID user_id);
+
+    @Query("SELECT u FROM User u WHERE u IN (SELECT f FROM User u JOIN u.friends f WHERE u.id = :id) " +
+            "AND (u.username LIKE CONCAT('%', COALESCE(:username, ''), '%') OR :username IS NULL)")
+    List<User> searchFriendListByUser(@Param("id") UUID userId, @Param("username") String username);
+
+    @Query("SELECT u FROM User u WHERE u.id <> :userId " +
+            "AND u.id NOT IN (SELECT f.id FROM User u JOIN u.friends f WHERE u.id = :userId AND f.id <> :userId)")
+    List<User> findNonFriendUsersByUserIdAndLoggedInUserId(@Param("userId") UUID userId);
+
+    @Query("SELECT u FROM User u WHERE u.id <> :userId " +
+            "AND u.id NOT IN (SELECT f.id FROM User u JOIN u.friends f WHERE u.id = :userId AND f.id <> :userId)" +
+            "AND (u.username LIKE CONCAT('%', COALESCE(:username, ''), '%')" +
+            "OR :username IS NULL)")
+    List<User> searchNonFriendUsersByUserIdAndLoggedInUserId(@Param("userId") UUID userId, @Param("username") String username);
 }
