@@ -13,6 +13,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -28,7 +30,6 @@ public class ChatService {
     private final MessageRepository messageRepository;
     private final UserRepository userRepository;
     private final ChatRepository chatRepository;
-
     public Chat startAChat(UUID user_id){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User current_user = userRepository.findUserByEmail(auth.getName()).orElseThrow();
@@ -49,6 +50,21 @@ public class ChatService {
             chat.setLast_access(LocalDateTime.now());
             return chatRepository.save(chat);
         }
+    }
+
+    public void updateMessageIndexData(Model model, String username){
+        User last_member = getLastContactMember();
+        List<UserInfoDetails> members;
+        if (username != null && !username.isEmpty()){
+            members = getFilteredMembers(username);
+        }
+        else {
+            members = getAllMembers();
+        }
+        List<MessageDetails> messages = getMessageInChat(last_member.getId());
+        model.addAttribute("messages", messages);
+        model.addAttribute("members", members);
+        model.addAttribute("member_uid", last_member.getId());
     }
 
     public User getLastContactMember(){
@@ -162,6 +178,15 @@ public class ChatService {
             System.out.println("Chat3 is not present.");
             throw new NullPointerException();
         }
+    }
+
+    public void openDirectMessageForUser(Model model, UUID member_id, String username, RedirectAttributes redirectAttributes){
+        redirectAttributes.addFlashAttribute("message","");
+        List<UserInfoDetails> members = (username != null && !username.isEmpty()) ? getFilteredMembers(username) : getAllMembers();
+        List<MessageDetails> messages = getMessageInChat(member_id);
+        model.addAttribute("messages", messages);
+        model.addAttribute("members", members);
+        model.addAttribute("member_uid", member_id);
     }
 
     public String limitMessageCharacters(String message, int maxLength) {

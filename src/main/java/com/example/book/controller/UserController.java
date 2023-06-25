@@ -26,10 +26,7 @@ public class UserController {
     public String friendList(@RequestParam(required = false) String username,
                              @RequestParam(required = false) String friend_name,
                              Model model){
-        List<UserInfoDetails> friends = userService.getFriendListByUser(friend_name);
-        List<UserInfoDetails> other_users = userService.getOtherUsers(username);
-        model.addAttribute("friends", friends);
-        model.addAttribute("users", other_users);
+        userService.configureUsersIncludeFriends(model,username,friend_name);
         return "user/friend_list";
     }
 

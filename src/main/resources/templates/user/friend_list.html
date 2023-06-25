@@ -62,7 +62,7 @@
                                                                 <p style="margin-left: 10px" class="text-muted">Role: <span th:text="${user.role_name}"></span></p>
                                                             </div>
                                                             <div class="col-md-3 col-sm-3">
-                                                                <a type="button" class="btn btn-primary message-btn">Message</a>
+                                                                <a th:href="@{/user/open-chat/{id}(id=@{${user.id}})}" type="button" class="btn btn-primary message-btn">Message</a>
                                                                 <a th:href="@{/user/add-friend/{id}(id=@{${user.id}})}" type="button" class="btn btn-success handle-friend">Add Friend</a>
                                                             </div>
                                                         </div>
@@ -101,7 +101,7 @@
                                                                 <p style="margin-left: 10px" class="text-muted">Role: <span th:text="${friend.role_name}"></span></p>
                                                             </div>
                                                             <div class="col-md-3 col-sm-3">
-                                                                <a type="button" class="btn btn-primary message-btn">Message</a>
+                                                                <a th:href="@{/user/open-chat/{id}(id=@{${friend.id}})}" type="button" class="btn btn-primary message-btn">Message</a>
                                                                 <a th:href="@{/user/remove-friend/{id}(id=@{${friend.id}})}" type="button" class="btn btn-danger handle-friend">Remove Friend</a>
                                                             </div>
                                                         </div>

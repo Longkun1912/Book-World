@@ -98,6 +98,13 @@ public class UserService implements UserDetailsService {
         return userInfoDetailsList;
     }
 
+    public void configureUsersIncludeFriends(Model model, String username, String friend_name){
+        List<UserInfoDetails> friends = getFriendListByUser(friend_name);
+        List<UserInfoDetails> other_users = getOtherUsers(username);
+        model.addAttribute("friends", friends);
+        model.addAttribute("users", other_users);
+    }
+
     //Show friend list of a current logged user
     public List<UserInfoDetails> getFriendListByUser(String friend_name){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

@@ -135,4 +135,25 @@ public class AdminController {
         userRepository.delete(user.get());
         return "redirect:/admin/user-index";
     }
+
+    @GetMapping(value = "/friend-list")
+    public String friendList(@RequestParam(required = false) String username,
+                             @RequestParam(required = false) String friend_name,
+                             Model model){
+        userService.addUserAttributesToModel(model);
+        userService.configureUsersIncludeFriends(model,username,friend_name);
+        return "admin/friend_list";
+    }
+
+    @GetMapping(value = "/add-friend/{id}")
+    public String addFriend(@PathVariable("id") UUID user_id){
+        User user = userService.addFriend(user_id);
+        return "redirect:/admin/friend-list";
+    }
+
+    @GetMapping(value = "/remove-friend/{id}")
+    public String removeFriend(@PathVariable("id") UUID user_id){
+        User user = userService.removeFriend(user_id);
+        return "redirect:/admin/friend-list";
+    }
 }
