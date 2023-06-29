@@ -1,5 +1,5 @@
 #community-page{
-    padding-top: 10%;
+    padding-top: 100px;
     background-color: antiquewhite;
 }
 #community-welcome{
@@ -53,9 +53,14 @@
     margin-left: 10px;
     display: flex;
 }
-.creator-image{
 
+.list-posts{
+    list-style: none;
+    margin-top: 30px;
+    margin-left: -40px;
+    padding-bottom: 20px;
 }
+
 .other-intro{
     margin-left: 20px;
     margin-top: 5px;
@@ -66,8 +71,8 @@
   background-color: transparent;
   color: #333;
   font-size: 40px;
-  margin-left: 580%;
-  margin-top: -150%;
+  margin-left: 290px;
+  margin-top: -80px;
 }
 
 #post-actions .btn-secondary:focus {

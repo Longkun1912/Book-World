@@ -10,7 +10,7 @@
   <div class="modal fade" id="createPost" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content" style="width: 120%;">
-        <form th:action="@{/admin/create-post}" th:object="${post_create}" th:method="post">
+        <form th:action="@{/user/create-post}" th:object="${post_create}" th:method="post">
           <div class="modal-header">
             <h5 class="modal-title" style="font-size: 30px; margin-left: 35%;">Create post</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">

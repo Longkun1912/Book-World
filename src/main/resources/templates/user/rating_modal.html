@@ -2,25 +2,35 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Edit reply Form</title>
+  <title>Rating Star</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+  <link rel="stylesheet" th:href="@{/css/rating-modal.css}" />
 </head>
 <body>
-<div th:fragment="edit-reply">
-  <div class="modal fade" th:id="'editReply-' + ${reply.id}" tabindex="-1" role="dialog"
-       aria-labelledby="exampleModalLabel" aria-hidden="true" style="margin-left: 110px; width: 500px;">
+<div th:fragment="rating-star">
+  <div class="modal fade" th:id="'ratingStar-' + ${post.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
-        <form th:action="@{/admin/edit-reply/{id}(id=${reply.id})}" method="post">
+        <form th:action="@{/user/provide-rating/{id}(id=${post.id})}" method="post">
           <div class="modal-header">
-            <label class="modal-title" for="inputReply">Edit this reply:</label>
+            <h5 class="modal-title" id="exampleModalLabel">Your Rate</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <div class="modal-body">
-            <div class="form-group">
-              <textarea class="form-control" id="inputReply" name="reply" rows="4" th:placeholder="${reply.text}"></textarea>
+          <div class="modal-body" style="display: flex; justify-content: center;">
+            <div id="wrapper">
+              <input type="radio" th:id="'rating-star1-' + ${post.post_id}" th:name="star" value="1"/>
+              <label th:for="'rating-star1-' + ${post.post_id}"></label>
+              <input type="radio" th:id="'rating-star2-' + ${post.post_id}" th:name="star" value="2"/>
+              <label th:for="'rating-star2-' + ${post.post_id}"></label>
+              <input type="radio" th:id="'rating-star3-' + ${post.post_id}" th:name="star" value="3"/>
+              <label th:for="'rating-star3-' + ${post.post_id}"></label>
+              <input type="radio" th:id="'rating-star4-' + ${post.post_id}" th:name="star" value="4"/>
+              <label th:for="'rating-star4-' + ${post.post_id}"></label>
+              <input type="radio" th:id="'rating-star5-' + ${post.post_id}" th:name="star" value="5" checked/>
+              <label th:for="'rating-star5-' + ${post.post_id}"></label>
             </div>
           </div>
           <div class="modal-footer">

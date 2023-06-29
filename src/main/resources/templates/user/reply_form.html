@@ -2,38 +2,30 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Create Post</title>
+  <title>Reply Form</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 <body>
-<div th:fragment="create-post">
-  <div class="modal fade" id="createPost" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div th:fragment="reply-form">
+  <div class="modal fade" th:id="'replyComment-' + ${comment.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+       aria-hidden="true" style="padding-right: 0 !important; width: 700px !important; z-index: 2300; min-height: 400px;">
     <div class="modal-dialog" role="document">
-      <div class="modal-content" style="width: 120%;">
-        <form th:action="@{/admin/create-post}" th:object="${post_create}" th:method="post">
+      <div class="modal-content">
+        <form th:action="@{/user/reply/{id}(id=${comment.id})}" method="post">
           <div class="modal-header">
-            <h5 class="modal-title" style="font-size: 30px; margin-left: 35%;">Create post</h5>
+            <label class="modal-title" for="inputReply">Write your reply:</label>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
             <div class="form-group">
-              <label class="form-check-label">Enter post title:</label>
-              <input type="text" th:field="*{title}" class="form-control" style="margin-top: 2%;">
-            </div>
-            <div class="form-group">
-              <label for="post_content" class="form-check-label">Enter post content:</label>
-              <textarea class="form-control" th:field="*{content_text}" id="post_content" name="comment" rows="5" style="margin-top: 2%;"></textarea>
-            </div>
-            <div class="form-group">
-              <label class="form-check-label">Enter post content image:</label>
-              <input type="text" th:field="*{content_image}" class="form-control" style="margin-top: 2%;">
+              <textarea class="form-control" id="inputReply" name="reply" rows="4"></textarea>
             </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-            <button id="post-button" type="submit" class="btn btn-primary">Post</button>
+            <button type="submit" class="btn btn-primary">Post</button>
           </div>
         </form>
       </div>

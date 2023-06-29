@@ -8,9 +8,9 @@
     <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" th:href="@{/css/admin/dashboard.css}" />
-    <link rel="stylesheet" th:href="@{/css/admin/community.css}" />
-    <link rel="stylesheet" th:href="@{/css/admin/rating-modal.css}" />
-    <link rel="stylesheet" th:href="@{/css/admin/comment.css}"/>
+    <link rel="stylesheet" th:href="@{/css/community.css}" />
+    <link rel="stylesheet" th:href="@{/css/rating-modal.css}" />
+    <link rel="stylesheet" th:href="@{/css/comment.css}"/>
     <script th:src="@{/js/message-alert.js}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
@@ -33,7 +33,7 @@
             <h1 id="danger-message" th:text="${message}"></h1>
         </div>
         <div id="community-welcome">
-            <h1>Thegioisach Feed</h1>
+            <h1 style="text-align: center;">Thegioisach Feed</h1>
         </div>
         <div id="create-post">
             <div id="user-avatar">
@@ -51,7 +51,7 @@
             </div>
         </div>
         <div id="post-container">
-            <ul style="list-style: none; margin-top: 30px;">
+            <ul class="list-posts" style="margin-left: 0 !important;">
                 <li th:each="post : ${posts}" style="background-color: white; border-radius: 12px; margin-top: 5%;">
                     <div class="community-post">
                         <div class="post-intro">
