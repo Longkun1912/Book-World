@@ -3,6 +3,15 @@
     margin-bottom: 5%;
 }
 
+.all-comments{
+    list-style: none;
+    border-radius: 8px;
+    background-color: aliceblue;
+    overflow-y: auto;
+    max-height: 500px;
+    min-height: 300px;
+}
+
 .comment-info{
     width: 550px;
     min-height: 85px;

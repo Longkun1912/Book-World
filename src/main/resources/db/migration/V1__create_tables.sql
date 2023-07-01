@@ -51,11 +51,15 @@ create table posts (
     foreign key(user_post) references users(id) on delete cascade
 );
 
-create table post_share (
+CREATE TABLE post_sharing (
+    id uuid primary key,
+    shared_time timestamp,
     user_id uuid,
     post_id uuid,
+    shared_to_user_id uuid,
     foreign key (user_id) references users(id) on delete cascade,
-    foreign key (post_id) references posts(id) on delete cascade
+    foreign key (post_id) references posts(id) on delete cascade,
+    foreign key (shared_to_user_id) references users(id) on delete cascade
 );
 
 create table rates (

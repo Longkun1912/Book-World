@@ -20,30 +20,25 @@
 <header>
   <section>
     <div id="community-page" style="background-size: contain; background-image: url('https://i.pinimg.com/736x/23/cb/71/23cb7143f892c49537c8a55f5ee21988.jpg') !important;">
-      <div th:if="${message}" class="alert alert-info" id="flash-message">
+      <div th:if="${message}" class="alert alert-danger" id="flash-message">
         <h1 id="danger-message" th:text="${message}"></h1>
       </div>
       <div id="community-welcome" style="text-align: center;">
-        <h1 style="color: aliceblue;">Thegioisach Feed</h1>
-      </div>
-      <div id="create-post">
-        <div id="user-avatar">
-          <img th:src="${user_detail.image_url}" class="user-image"/>
-        </div>
-        <div id="create-content">
-          <div class="input-group mb-3">
-            <button type="button" class="form-control" aria-label="Default"
-                    data-toggle="modal" data-target="#createPost"
-                    th:text="'Share what is on your mind, ' + ${user_detail.username} + '...'"
-                    aria-describedby="inputGroup-sizing-default" id="input-content"
-            ></button>
-            <div th:replace="user/create_post :: create-post"></div>
-          </div>
-        </div>
+        <h1 style="color: aliceblue;">Shared To You</h1>
       </div>
       <div id="post-container">
         <ul class="list-posts">
           <li th:each="post : ${posts}" style="background-color: white; border-radius: 12px; margin-top: 5%;">
+            <div class="shared-user">
+              <div class="sharer-info">
+                <img th:src="${post.shared_user.image_url}" style="width: 80px; height: 80px; border-radius: 50%;"/>
+              </div>
+              <div class="sharer-details">
+                <h1 style="font-family: sans-serif; font-size: 25px;" th:text="${post.shared_user.username}"></h1>
+                <h2 class="share-time">Shared to you at <span class="share-time" th:text="${post.last_updated}"></span></h2>
+              </div>
+              <a style="margin-left: 55px !important;" id="delete-share" type="button" class="btn btn-danger" th:href="@{/user/delete-share/{id}(id=@{${post.shared_post_id}})}">Delete share</a>
+            </div>
             <div class="community-post">
               <div class="post-intro">
                 <div class="creator-image">
@@ -53,14 +48,14 @@
                   <h1 style="font-family: sans-serif; font-size: 25px;" th:text="${post.creator_detail.username}"></h1>
                   <h2 style="font-family: sans-serif; font-size: 15px; color: darkgrey;" th:text="${post.last_updated}"></h2>
                 </div>
-                <div class="btn-group dropright" id="post-actions" style="width: 50px !important;">
+                <div class="btn-group dropright" id="post-actions" style="width: 200px;">
                   <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     ...
                   </button>
                   <div class="dropdown-menu">
-                      <button class="dropdown-item edit-post-button" data-toggle="modal"
-                              th:data-target="${post.creator_detail.id == user_detail.id || post.creator_detail.role_name == 'admin' ? '#editPost' : '#forbiddenRequest'}"
-                      >
+                    <button class="dropdown-item edit-post-button" data-toggle="modal"
+                            th:data-target="${post.creator_detail.id == user_detail.id || post.creator_detail.role_name == 'admin' ? '#editPost' : '#forbiddenRequest'}"
+                    >
                       Edit post
                     </button>
                     <button class="dropdown-item delete-post-button" data-toggle="modal"

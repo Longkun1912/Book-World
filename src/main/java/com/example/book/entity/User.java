@@ -77,12 +77,7 @@ public class User {
     )
     private List<User> friends;
 
-    // An user can share many posts to another user and vice-versa
-    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinTable(
-            name = "post_share",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "post_id")
-    )
-    private List<Post> sharedPosts = new ArrayList<>();
+    // An user can share many posts to other users
+    @OneToMany(mappedBy = "sharedBy", cascade = CascadeType.ALL)
+    private List<PostSharing> sharedPosts = new ArrayList<>();
 }

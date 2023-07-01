@@ -6,6 +6,7 @@ import com.example.book.entity.Chat;
 import com.example.book.entity.Message;
 import com.example.book.entity.User;
 import com.example.book.service.ChatService;
+import com.example.book.service.PostService;
 import com.example.book.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;

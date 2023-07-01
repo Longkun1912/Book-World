@@ -109,7 +109,7 @@ public class UserService implements UserDetailsService {
     public List<UserInfoDetails> getFriendListByUser(String friend_name){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userRepository.findUserByEmail(auth.getName()).get();
-        List<User> friends = new ArrayList<>();
+        List<User> friends;
         if (friend_name != null && !friend_name.isEmpty()){
             friends = userRepository.searchFriendListByUser(user.getId(),friend_name);
         }
@@ -129,7 +129,7 @@ public class UserService implements UserDetailsService {
     public List<UserInfoDetails> getOtherUsers(String username){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User current_user = userRepository.findUserByEmail(auth.getName()).orElseThrow();
-        List<User> users = new ArrayList<>();
+        List<User> users;
         if (username != null && !username.isEmpty()){
             users = userRepository.searchNonFriendUsersByUserIdAndLoggedInUserId(current_user.getId(), username);
         }

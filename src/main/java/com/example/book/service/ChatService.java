@@ -31,25 +31,24 @@ public class ChatService {
     private final UserRepository userRepository;
     private final ChatRepository chatRepository;
     public Chat startAChat(UUID user_id){
+        Chat chat;
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User current_user = userRepository.findUserByEmail(auth.getName()).orElseThrow();
         Optional<Chat> existed_chat = chatRepository.findChatByUsers(current_user.getId(), user_id);
         if (existed_chat.isPresent()){
             System.out.println("Chat0 is present.");
-            Chat chat = existed_chat.get();
+            chat = existed_chat.get();
             chat.setLast_access(LocalDateTime.now());
-            chatRepository.save(chat);
-            return existed_chat.get();
         }
         else {
             System.out.println("Chat0 is not present.");
             User other = userRepository.findUserById(user_id).orElseThrow();
-            Chat chat = new Chat(current_user, other);
+            chat = new Chat(current_user, other);
             chat.setId(UUID.randomUUID());
             chat.setCreated_time(LocalDateTime.now());
             chat.setLast_access(LocalDateTime.now());
-            return chatRepository.save(chat);
         }
+        return chatRepository.save(chat);
     }
 
     public void updateMessageIndexData(Model model, String username){

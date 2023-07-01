@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -98,10 +99,11 @@ public class CommentService {
     public List<CommentDetails> viewCommentsInPost(UUID post_id){
         List<Comment> comments = commentRepository.getCommentsForPost(post_id);
         List<CommentDetails> commentDTOList = new ArrayList<>();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/M/yyyy 'at' hh:mm a");
         for (Comment comment : comments){
             CommentDetails commentDetails = configureCommentCreatorImage(comment);
             commentDetails.setReplies(viewRepliesInComment(comment));
-            commentDetails.setUpdated_time(calculateCommentCreatedTimeGap(comment.getCreated_time()));
+            commentDetails.setUpdated_time(comment.getCreated_time().format(formatter));
             commentDTOList.add(commentDetails);
         }
         return commentDTOList;
@@ -110,9 +112,10 @@ public class CommentService {
     public List<CommentDetails> viewRepliesInComment(Comment comment){
         List<Comment> replies = commentRepository.getRepliesByComment(comment);
         List<CommentDetails> replyDetailList = new ArrayList<>();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/M/yyyy 'at' hh:mm a");
         for (Comment reply : replies){
             CommentDetails replyDetails = configureCommentCreatorImage(reply);
-            replyDetails.setUpdated_time(calculateCommentCreatedTimeGap(reply.getCreated_time()));
+            replyDetails.setUpdated_time(reply.getCreated_time().format(formatter));
             replyDetailList.add(replyDetails);
         }
         return replyDetailList;
@@ -126,30 +129,5 @@ public class CommentService {
         // Set creator image for post
         commentDetails.setCreator(creator_detail);
         return commentDetails;
-    }
-
-    private String calculateCommentCreatedTimeGap(LocalDateTime created_time){
-        LocalDateTime now = LocalDateTime.now();
-        Duration duration = Duration.between(created_time, now);
-        long seconds = duration.getSeconds();
-
-        if (seconds >= 31536000) {
-            long years = seconds / 31536000;
-            return years + " year(s) ago";
-        } else if (seconds >= 2592000) {
-            long months = seconds / 2592000;
-            return months + " month(s) ago";
-        } else if (seconds >= 86400) {
-            long days = seconds / 86400;
-            return days + " day(s) ago";
-        } else if (seconds >= 3600) {
-            long hours = seconds / 3600;
-            return hours + " hour(s) ago";
-        } else if (seconds >= 60) {
-            long minutes = seconds / 60;
-            return minutes + " minute(s) ago";
-        } else {
-            return seconds + " second(s) ago";
-        }
     }
 }

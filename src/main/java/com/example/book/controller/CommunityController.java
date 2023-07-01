@@ -3,6 +3,7 @@ package com.example.book.controller;
 import com.example.book.domain.CommentDetails;
 import com.example.book.domain.PostDetails;
 import com.example.book.domain.PostHandling;
+import com.example.book.domain.UserInfoDetails;
 import com.example.book.entity.Comment;
 import com.example.book.service.CommentService;
 import com.example.book.service.PostService;
@@ -33,6 +34,8 @@ public class CommunityController {
     public String communityPage(Model model, RedirectAttributes redirectAttributes){
         userService.addUserAttributesToModel(model);
         postService.configureCommunityPage(model, redirectAttributes);
+        List<UserInfoDetails> friends = userService.getFriendListByUser(null);
+        model.addAttribute("friends", friends);
         return "admin/community";
     }
 
@@ -41,6 +44,8 @@ public class CommunityController {
     public String socialPage(Model model, RedirectAttributes redirectAttributes){
         userService.addUserAttributesToModel(model);
         postService.configureCommunityPage(model, redirectAttributes);
+        List<UserInfoDetails> friends = userService.getFriendListByUser(null);
+        model.addAttribute("friends", friends);
         return "user/community";
     }
 

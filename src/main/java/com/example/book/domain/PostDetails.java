@@ -15,6 +15,9 @@ public class PostDetails {
     private String post_id;
 
     @JsonProperty
+    private UUID shared_post_id;
+
+    @JsonProperty
     private String title;
 
     @JsonProperty
@@ -36,5 +39,8 @@ public class PostDetails {
     private UserInfoDetails creator_detail;
 
     @JsonProperty
-    private List<UserInfoDetails> sharedBy;
+    private UserInfoDetails shared_user;
+
+    @JsonProperty
+    private String shared_time;
 }

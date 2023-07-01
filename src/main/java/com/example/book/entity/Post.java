@@ -41,7 +41,7 @@ public class Post {
     @JoinColumn(name = "user_post", referencedColumnName = "id")
     private User creator;
 
-    // A post can be shared to many users
-    @ManyToMany(mappedBy = "sharedPosts", cascade = CascadeType.ALL)
-    private List<User> sharedBy = new ArrayList<>();
+    // A post can be shared by many users
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    private List<PostSharing> sharedBy = new ArrayList<>();
 }
