@@ -30,20 +30,21 @@ public class BookController {
     private final BookService bookService;
     private final CategoryService categoryService;
 
+    // View books for admin
     @RequestMapping(path = "/admin/book-index", method = RequestMethod.GET)
     public String bookIndex(Model model, @RequestParam(required = false) String title,
                             @RequestParam(required = false) Category category,
                             @RequestParam(required = false) String category_name,
                             @RequestParam(required = false) String author,
                             @RequestParam(required = false) Integer recommended_age,
-                            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
-                            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate){
+                            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Optional<LocalDate> startDate,
+                            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Optional<LocalDate> endDate){
         userService.updateModel(model);
         List<BookDetails> filtered_books;
         // Filter params
         Optional<Category> searched_category = categoryRepository.findCategoryByName(category_name);
         if(searched_category.isPresent()){
-            filtered_books = bookService.getFilteredBooks(searched_category.get(),startDate,endDate,recommended_age);
+            filtered_books = bookService.getFilteredBooks(searched_category.get(),startDate.orElse(null),endDate.orElse(null),recommended_age);
         }
         else if (title != null && !title.isEmpty()){
             filtered_books = bookService.getTitleSearchedBooks(title);
@@ -53,13 +54,46 @@ public class BookController {
         }
         else {
             // Filter by params (default list)
-            filtered_books = bookService.getFilteredBooks(category,startDate,endDate,recommended_age);
+            filtered_books = bookService.getFilteredBooks(category,startDate.orElse(null),endDate.orElse(null),recommended_age);
         }
         model.addAttribute("categories", categoryService.getCategories());
         model.addAttribute("ages", bookService.getAge());
         model.addAttribute("books",filtered_books);
         return "admin/book_index";
     }
+
+    // View books for user
+    @RequestMapping(path = "/user/book-index", method = RequestMethod.GET)
+    public String bookList(Model model, @RequestParam(required = false) String title,
+                            @RequestParam(required = false) Category category,
+                            @RequestParam(required = false) String category_name,
+                            @RequestParam(required = false) String author,
+                            @RequestParam(required = false) Integer recommended_age,
+                            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Optional<LocalDate> startDate,
+                            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Optional<LocalDate> endDate){
+        userService.updateModel(model);
+        List<BookDetails> filtered_books;
+        // Filter params
+        Optional<Category> searched_category = categoryRepository.findCategoryByName(category_name);
+        if(searched_category.isPresent()){
+            filtered_books = bookService.getFilteredBooks(searched_category.get(),startDate.orElse(null),endDate.orElse(null),recommended_age);
+        }
+        else if (title != null && !title.isEmpty()){
+            filtered_books = bookService.getTitleSearchedBooks(title);
+        }
+        else if (author != null && !author.isEmpty()){
+            filtered_books = bookService.getAuthorSearchedBooks(author);
+        }
+        else {
+            // Filter by params (default list)
+            filtered_books = bookService.getFilteredBooks(category,startDate.orElse(null),endDate.orElse(null),recommended_age);
+        }
+        model.addAttribute("categories", categoryService.getCategories());
+        model.addAttribute("ages", bookService.getAge());
+        model.addAttribute("books",filtered_books);
+        return "user/book_index";
+    }
+
 
     @RequestMapping(path = "/admin/book-details/{id}", method = RequestMethod.GET)
     public String bookDetails(@PathVariable("id") Integer book_id, Model model){

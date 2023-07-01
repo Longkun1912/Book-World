@@ -60,24 +60,24 @@
                 </div>
                 <div id="date-filter">
                     <div class="container px-1 px-sm-5 mx-auto" id="datepicker-container">
-                        <form autocomplete="off">
+                        <form autocomplete="off" style="margin-left: -202px !important; margin-top: -10px;">
                             <div class="flex-row d-flex justify-content-center">
                                 <div class="col-lg-6 col-11 px-1">
                                     <div class="input-group input-daterange" id="datepicker-range">
                                         <div class="input-with-icon">
-                                            <input type="text" id="start" name="startDate" class="form-control text-left mr-2">
+                                            <input style="border-radius: 5px;" type="text" id="start" name="startDate" class="form-control text-left mr-2">
                                             <label class="ml-3 form-control-placeholder" id="start-p" for="start" style="color: white; margin-left: -2px !important;">Start Date:</label>
                                             <span>
-                                                <svg xmlns="http://www.w3.org/2000/svg" id="start-date-icon" fill="currentColor" class="bi bi-calendar" viewBox="0 0 16 16">
+                                                <svg style="margin-right: 6px;" xmlns="http://www.w3.org/2000/svg" id="start-date-icon" fill="currentColor" class="bi bi-calendar" viewBox="0 0 16 16">
                                                   <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
                                                 </svg>
                                             </span>
                                         </div>
                                         <div class="input-with-icon" style="margin-left: 15px;">
-                                            <input type="text" id="end" name="endDate" class="form-control text-left ml-2">
+                                            <input style="border-radius: 5px;" type="text" id="end" name="endDate" class="form-control text-left ml-2">
                                             <label class="ml-3 form-control-placeholder" id="end-p" for="end" style="color: white; margin-left: -50% !important;">End Date:</label>
                                             <span>
-                                                <svg xmlns="http://www.w3.org/2000/svg" id="end-date-icon" fill="currentColor" class="bi bi-calendar" viewBox="0 0 16 16">
+                                                <svg style="margin-right: -2px;" xmlns="http://www.w3.org/2000/svg" id="end-date-icon" fill="currentColor" class="bi bi-calendar" viewBox="0 0 16 16">
                                                     <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
                                                 </svg>
                                             </span>
@@ -149,6 +149,6 @@
         </div>
     </div>
 </section>
-<script th:src="@{/js/datepicker-selection.js}"></script>
+<script th:src="@{/js/admin-datepicker-selection.js}"></script>
 </body>
-</html>>
+</html>

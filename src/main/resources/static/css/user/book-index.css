@@ -1,0 +1,89 @@
+#page-title{
+    color: white;
+    font-size: 50px;
+    margin-top: 100px;
+    text-align: center;
+}
+
+.list-container{
+    display: flex;
+    height: 100vh;
+    margin-top: 30px;
+}
+
+.filter-category-age{
+    display: flex;
+    margin-top: 20px;
+    margin-left: 18px;
+}
+
+#category-sort{
+    column-count: 3;
+    width: 500px;
+}
+
+.dropdown-category{
+    margin-left: 10px;
+}
+
+.category-option{
+    color: black !important;
+}
+
+.age-option{
+    text-align: center;
+}
+
+.search-book{
+    margin-left: 20px;
+    margin-top: -10px;
+}
+
+.search-name{
+    font-size: 22px;
+    color; darkslategray
+}
+
+.filter-book{
+    width: 400px;
+    height: 470px;
+    background-color: floralwhite;
+    margin-left: 55px;
+    border-radius: 12px;
+}
+
+.book-index{
+    margin-left: 30px;
+    width: 1000px;
+    background-color: lightgreen;
+    border-radius: 12px;
+}
+
+.book-list{
+    list-style: none;
+    display: flex;
+    margin-top: 35px;
+    margin-left: -35px;
+    he
+}
+
+.book-item{
+    margin-left: 40px;
+    border-radius: 12px;
+    background-color: ghostwhite;
+    height: 280px;
+    width: 200px;
+}
+
+.book-image{
+    width: 150px;
+    height: 200px;
+    margin-top: 20px;
+    margin-left: 25px;
+}
+
+#preview-book{
+    margin-top: 10px;
+    width: 150px;
+    margin-left: 25px;
+}

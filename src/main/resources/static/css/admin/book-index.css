@@ -251,9 +251,8 @@ tfoot tr:nth-child(2) th {
   }
 }
 #datepicker-container{
-    width: 500px;
-    padding-top: 5% !important;
-    margin-left: -25% !important;
+    width: 520px !important;
+    padding-top: 5%;
 }
 #datepicker-range{
     width: 550px;
@@ -274,7 +273,6 @@ tfoot tr:nth-child(2) th {
 }
 #start-date-icon{
     display: flex !important;
-    margin-right: 8px;
     height: 40px;
     width: 25px;
 }
@@ -291,6 +289,7 @@ tfoot tr:nth-child(2) th {
     background-color: #6c757d;
     border-radius: .25rem;
     height: 258px;
+    width: 510px;
     margin-left: -5%;
 }
 .search-button {
