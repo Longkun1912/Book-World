@@ -5,8 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -18,16 +18,19 @@ public class Favorite {
     @Id
     private UUID id;
 
-    @Column
-    private String name;
-
-    @Column
-    private LocalDateTime created_time;
-
-    @ManyToOne
-    @JoinColumn(name = "user_favorite", nullable = false)
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "id", nullable = false)
     private User user;
 
-    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "favorites")
-    private List<Book> books;
+    @ManyToMany
+    @JoinTable(name = "favorite_books",
+            joinColumns = @JoinColumn(name = "favorite_id"),
+            inverseJoinColumns = @JoinColumn(name = "book_id"))
+    private Set<Book> books = new HashSet<>();
+
+    public Favorite(UUID id, User user){
+        this.id = id;
+        this.user = user;
+    }
 }

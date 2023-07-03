@@ -41,6 +41,16 @@ create table books (
     foreign key(book_category) references categories(id)
 );
 
+create table favorites (
+    id uuid primary key references users(id)
+);
+
+create table favorite_books(
+    favorite_id uuid references favorites(id),
+    book_id serial references books(id),
+    primary key (favorite_id, book_id)
+);
+
 create table posts (
     id uuid primary key,
     title varchar(200),
@@ -51,7 +61,7 @@ create table posts (
     foreign key(user_post) references users(id) on delete cascade
 );
 
-CREATE TABLE post_sharing (
+create table post_sharing (
     id uuid primary key,
     shared_time timestamp,
     user_id uuid,
@@ -70,21 +80,6 @@ create table rates (
     post_rate uuid not null,
     foreign key(user_rate) references users(id),
     foreign key(post_rate) references posts(id)
-);
-
-create table favorites (
-    id uuid primary key,
-    name varchar(64),
-    created_time timestamp,
-    user_favorite uuid not null,
-    foreign key(user_favorite) references users(id)
-);
-
-create table book_favorite_details (
-    book_id int not null,
-    favorite_id uuid not null,
-    foreign key (book_id) references books(id),
-    foreign key (favorite_id) references favorites(id)
 );
 
 create table chats (

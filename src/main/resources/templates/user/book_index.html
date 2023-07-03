@@ -42,8 +42,8 @@
             height: 100vh;
           "
     >
-        <div class="mask" style="background-color: rgba(0, 0, 0, 0.2);">
-            <h1 id="page-title">Available Books</h1>
+        <div class="mask" style="background-color: rgba(0, 0, 0, 0.2); overflow-y: auto;">
+            <h1 id="page-title">Online Books</h1>
             <div class="list-container">
                 <div class="filter-book">
                     <div class="filter-category-age">
@@ -128,8 +128,13 @@
                         <li th:each="book : ${books}">
                             <div class="book-item">
                                 <img th:src="${book.image_url}" class="book-image"/>
-                                <button id="preview-book" class="btn btn-secondary">Preview</button>
+                                <button id="preview-book" class="btn btn-success"
+                                        data-toggle="modal" th:data-target="'#previewBook-' + ${book.id}">
+                                    Preview
+                                </button>
+                                <a type="button" id="add-favorite" class="btn btn-secondary" th:href="@{/user/add-book-to-favorite/{id}(id=${book.id})}">Add favorite</a>
                             </div>
+                            <div th:replace="user/book_preview :: preview-book" th:with="book=${book}"></div>
                         </li>
                     </ul>
                 </div>

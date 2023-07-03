@@ -3,8 +3,10 @@ package com.example.book.service;
 import com.example.book.domain.UserHandling;
 import com.example.book.domain.UserInfoDetails;
 import com.example.book.domain.UserRegister;
+import com.example.book.entity.Favorite;
 import com.example.book.entity.Role;
 import com.example.book.entity.User;
+import com.example.book.repository.FavoriteRepository;
 import com.example.book.repository.RoleRepository;
 import com.example.book.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +32,7 @@ public class UserService implements UserDetailsService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final FavoriteRepository favoriteRepository;
 
     public Set<SimpleGrantedAuthority> getRole(User user) {
         Role role = user.getRole();
@@ -63,6 +66,8 @@ public class UserService implements UserDetailsService {
         user.setRole(roleRepository.findRoleByName(userHandling.getInput_role()));
         user.setLast_updated(LocalDateTime.now());
         userRepository.save(user);
+        Favorite favorite = new Favorite(user.getId(), user);
+        favoriteRepository.save(favorite);
     }
 
     public void saveUpdatedUser(UserHandling userHandling){

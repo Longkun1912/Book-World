@@ -70,6 +70,18 @@ public class BookService {
         return mapper.map(book.get(), BookHandling.class);
     }
 
+    public void configureBookDetail(BookDetails book_details, Model model){
+        String book_category = book_details.getCategory().getName();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        String published_date = book_details.getPublished_date().format(formatter);
+        String recommended_age = Integer.toString(book_details.getRecommended_age());
+        String page = Integer.toString(book_details.getPage());
+        model.addAttribute("book_category",book_category);
+        model.addAttribute("published_date",published_date);
+        model.addAttribute("recommended_age",recommended_age);
+        model.addAttribute("page",page);
+    }
+
     public void configureBookWhileEditing(BookHandling bookHandling){
         // Convert date from string
         String published_date = bookHandling.getPublished_day();

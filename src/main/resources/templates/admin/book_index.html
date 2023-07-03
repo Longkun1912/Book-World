@@ -136,8 +136,8 @@
                     <td>
                         <img th:src="${book.image_url}" id="book-image"/>
                     </td>
-                    <td th:text="${book.title}"></td>
-                    <td th:text="${book.author}"></td>
+                    <td style="max-width: 300px;" th:text="${book.title}"></td>
+                    <td style="max-width: 200px;" th:text="${book.author}"></td>
                     <td style="display: grid; justify-content: center;">
                         <a style="width: 150px;" type="button" class="btn btn-secondary" th:href="@{/admin/book-details/{id}(id=@{${book.id}})}">View Details</a>
                         <a style="margin-top: 10%;" type="button" class="btn btn-primary" th:href="@{/admin/edit-book/{id}(id=@{${book.id}})}">Edit</a>

@@ -37,17 +37,35 @@ timestamp '2023-01-03 08:12:05','a00e70ea-c6c2-11ed-afa1-0242ac120002');
 ---
 ---Insert to favorites entity
 ---
-insert into favorites (id,name,created_time,user_favorite) values
-('e0aa9ca4-cbfa-11ed-afa1-0242ac120002','My favorite books',current_timestamp,'a00e70ea-c6c2-11ed-afa1-0242ac120002'),
-('eb505e1e-cbfa-11ed-afa1-0242ac120002','My travel',current_timestamp,'6e7cc348-cbf8-11ed-afa1-0242ac120002'),
-('eb505aea-cbfa-11ed-afa1-0242ac120002','Thrilling time',current_timestamp,'6e7cc348-cbf8-11ed-afa1-0242ac120002');
+insert into favorites(id) values
+('a00e6d84-c6c2-11ed-afa1-0242ac120002'),
+('a00e70ea-c6c2-11ed-afa1-0242ac120002'),
+('6e7cc348-cbf8-11ed-afa1-0242ac120002'),
+('f21ae502-1191-11ee-be56-0242ac120002'),
+('abd271cc-1192-11ee-be56-0242ac120002'),
+('14fed474-1193-11ee-be56-0242ac120002');
 
 ---
----Insert to book_favorite_details entity
+---Insert to favorite_books entity
 ---
-insert into book_favorite_details (book_id,favorite_id) values
-(1,'eb505aea-cbfa-11ed-afa1-0242ac120002'),
-(2,'eb505aea-cbfa-11ed-afa1-0242ac120002'),
-(4,'eb505e1e-cbfa-11ed-afa1-0242ac120002'),
-(2,'e0aa9ca4-cbfa-11ed-afa1-0242ac120002'),
-(3,'e0aa9ca4-cbfa-11ed-afa1-0242ac120002');
+insert into favorite_books(favorite_id,book_id) values
+('a00e6d84-c6c2-11ed-afa1-0242ac120002',1),
+('a00e6d84-c6c2-11ed-afa1-0242ac120002',6),
+('a00e6d84-c6c2-11ed-afa1-0242ac120002',8),
+('a00e6d84-c6c2-11ed-afa1-0242ac120002',12),
+('a00e70ea-c6c2-11ed-afa1-0242ac120002',1),
+('a00e70ea-c6c2-11ed-afa1-0242ac120002',3),
+('a00e70ea-c6c2-11ed-afa1-0242ac120002',7),
+('6e7cc348-cbf8-11ed-afa1-0242ac120002',2),
+('6e7cc348-cbf8-11ed-afa1-0242ac120002',5),
+('6e7cc348-cbf8-11ed-afa1-0242ac120002',13),
+('f21ae502-1191-11ee-be56-0242ac120002',14),
+('f21ae502-1191-11ee-be56-0242ac120002',17),
+('abd271cc-1192-11ee-be56-0242ac120002',4),
+('abd271cc-1192-11ee-be56-0242ac120002',9),
+('abd271cc-1192-11ee-be56-0242ac120002',13),
+('14fed474-1193-11ee-be56-0242ac120002',15);
+
+
+
+

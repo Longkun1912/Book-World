@@ -6,7 +6,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "books")
@@ -46,11 +48,6 @@ public class Book {
     @JoinColumn(name = "book_category", nullable = false)
     private Category category;
 
-    @ManyToMany(cascade = CascadeType.REMOVE)
-    @JoinTable(
-            name = "book_favorite_details",
-            joinColumns = @JoinColumn(name = "book_id"),
-            inverseJoinColumns = @JoinColumn(name = "favorite_id")
-    )
-    private List<Favorite> favorites;
+    @ManyToMany(mappedBy = "books")
+    private Set<Favorite> favorites = new HashSet<>();
 }
