@@ -1,12 +1,16 @@
 package com.example.book.controller;
 
+import com.example.book.domain.BookDetails;
+import com.example.book.domain.UserInfoDetails;
 import com.example.book.entity.User;
+import com.example.book.service.BookService;
 import com.example.book.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -14,9 +18,16 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
+    private final BookService bookService;
 
     @GetMapping(value = "/home-page")
-    public String userHome(){
+    public String userHome(Model model){
+        userService.addUserAttributesToModel(model);
+        List<BookDetails> recommended_books = bookService.getRecommendedBooksForUser();
+        List<UserInfoDetails> shared_users = userService.getUserWhoShareTheSameFavorite();
+        recommended_books.forEach(bookDetails -> System.out.println(bookDetails.getTitle()));
+        model.addAttribute("users", shared_users);
+        model.addAttribute("books", recommended_books);
         return "user/home_page";
     }
 

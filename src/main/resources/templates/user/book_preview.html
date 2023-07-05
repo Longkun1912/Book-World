@@ -22,10 +22,10 @@
             <div class="book-details">
               <h2 class="info">Title: <span class="info" th:text="${book.title}"></span></h2>
               <h2 class="info">Author: <span class="info" th:text="${book.author}"></span></h2>
-              <h2 class="info">Category: <span class="info" th:text="${book_category}"></span></h2>
-              <h2 class="info">Published Date: <span class="info" th:text="${published_date}"></span></h2>
-              <h2 class="info">Recommended Age: <span class="info" th:text="${recommended_age}"></span> Above</h2>
-              <h2 class="info">Total Page Number: <span class="info" th:text="${page}"></span></h2>
+              <h2 class="info">Category: <span class="info" th:text="${book.category_name}"></span></h2>
+              <h2 class="info">Published Date: <span class="info" th:text="${book.published_day}"></span></h2>
+              <h2 class="info">Recommended Age: <span class="info" th:text="${book.recommended_age}"></span> Above</h2>
+              <h2 class="info">Total Page Number: <span class="info" th:text="${book.page}"></span></h2>
             </div>
           </div>
           <div class="book-description">

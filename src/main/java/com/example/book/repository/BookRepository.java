@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
 public interface BookRepository extends JpaRepository<Book, Integer> {
@@ -34,4 +35,26 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
                           @Param("startDate") LocalDate startDate,
                           @Param("endDate") LocalDate endDate,
                           @Param("recommended_age") Integer recommended_age);
+
+    @Query("SELECT b2 FROM User u " +
+            "JOIN u.favorites f " +
+            "JOIN f.books fb " +
+            "JOIN fb.category c " +
+            "JOIN c.books b1 " +
+            "JOIN b1.category c2 " +
+            "JOIN c2.books b2 " +
+            "WHERE u.id = :userId " +
+            "AND b2.id != b1.id " +
+            "AND b2.id NOT IN " +
+            "(SELECT fb2.id FROM Favorite f2 " +
+            "JOIN f2.books fb2 " +
+            "JOIN fb2.category c3 " +
+            "WHERE f2.id = f.id) " +
+            "AND b2.id = (" +
+            "SELECT MIN(b3.id) FROM Book b3 " +
+            "JOIN b3.category c4 " +
+            "WHERE c4.id = c2.id" +
+            ")")
+    List<Book> findRelatedBooksByUserFavorites(@Param("userId") UUID userId);
+
 }

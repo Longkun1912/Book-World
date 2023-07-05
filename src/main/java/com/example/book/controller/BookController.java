@@ -87,7 +87,7 @@ public class BookController {
             // Filter by params (default list)
             filtered_books = bookService.getFilteredBooks(category,startDate.orElse(null),endDate.orElse(null),recommended_age);
         }
-        filtered_books.forEach(bookDetails -> bookService.configureBookDetail(bookDetails,model));
+        filtered_books.forEach(bookService::configureBookDetailForUser);
         model.addAttribute("categories", categoryService.getCategories());
         model.addAttribute("ages", bookService.getAge());
         model.addAttribute("books",filtered_books);
@@ -100,7 +100,7 @@ public class BookController {
         userService.updateModel(model);
         BookDetails book_details = bookService.getBookDetails(book_id);
         // Convert book attributes in front-end
-        bookService.configureBookDetail(book_details, model);
+        bookService.configureBookDetailForAdmin(book_details, model);
         model.addAttribute("book",book_details);
         return "admin/book_details";
     }

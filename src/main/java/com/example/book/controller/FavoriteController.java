@@ -26,9 +26,8 @@ public class FavoriteController {
     public String viewBookInFavorite(Model model){
         userService.updateModel(model);
         Set<BookDetails> books = favoriteService.viewBooksInFavorite();
-        books.forEach(book -> bookService.configureBookDetail(book, model));
+        books.forEach(bookService::configureBookDetailForUser);
         model.addAttribute("books", books);
-        System.out.println(books.size());
         return "user/favorite";
     }
 

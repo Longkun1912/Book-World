@@ -4,19 +4,20 @@ import com.example.book.domain.BookDetails;
 import com.example.book.domain.BookHandling;
 import com.example.book.entity.Book;
 import com.example.book.entity.Category;
+import com.example.book.entity.User;
 import com.example.book.repository.BookRepository;
 import com.example.book.repository.CategoryRepository;
+import com.example.book.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,6 +26,7 @@ public class BookService {
     private final ModelMapper mapper;
     private final BookRepository bookRepository;
     private final CategoryRepository categoryRepository;
+    private final UserRepository userRepository;
     private final CategoryService categoryService;
 
     public List<BookDetails> getFilteredBooks(Category category, LocalDate startDate, LocalDate endDate, Integer recommended_age){
@@ -70,7 +72,7 @@ public class BookService {
         return mapper.map(book.get(), BookHandling.class);
     }
 
-    public void configureBookDetail(BookDetails book_details, Model model){
+    public void configureBookDetailForAdmin(BookDetails book_details, Model model){
         String book_category = book_details.getCategory().getName();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         String published_date = book_details.getPublished_date().format(formatter);
@@ -80,6 +82,13 @@ public class BookService {
         model.addAttribute("published_date",published_date);
         model.addAttribute("recommended_age",recommended_age);
         model.addAttribute("page",page);
+    }
+
+    public void configureBookDetailForUser(BookDetails bookDetails){
+        Book book = bookRepository.findById(bookDetails.getId()).orElseThrow();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        bookDetails.setPublished_day(book.getPublished_date().format(formatter));
+        bookDetails.setCategory_name(book.getCategory().getName());
     }
 
     public void configureBookWhileEditing(BookHandling bookHandling){
@@ -100,6 +109,31 @@ public class BookService {
     public void deleteBook(Integer book_id){
         Optional<Book> book = Optional.of(bookRepository.findById(book_id).orElseThrow());
         bookRepository.delete(book.get());
+    }
+
+    public List<BookDetails> getRecommendedBooksForUser(){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userRepository.findUserByEmail(auth.getName()).get();
+        List<Book> recommended_books = bookRepository.findRelatedBooksByUserFavorites(user.getId());
+        // Remove excess records if more than 7
+        if (recommended_books.size() > 7) {
+            recommended_books = recommended_books.subList(0, 7);
+        }
+        // Add random books if less than 7
+        else if (recommended_books.size() < 7) {
+            int remaining = 7 - recommended_books.size();
+
+            // Fetch all books except the related ones
+            List<Book> allBooks = bookRepository.findAll();
+            allBooks.removeAll(recommended_books);
+
+            // Shuffle the books randomly
+            Collections.shuffle(allBooks);
+
+            // Add remaining random books to the recommended_books list
+            recommended_books.addAll(allBooks.subList(0, remaining));
+        }
+        return recommended_books.stream().map(book -> mapper.map(book, BookDetails.class)).toList();
     }
 
     public BookDetails getBookDetails(Integer book_id){

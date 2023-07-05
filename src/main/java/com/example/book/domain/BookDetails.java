@@ -21,6 +21,9 @@ public class BookDetails {
     private LocalDate published_date;
 
     @JsonProperty
+    private String published_day;
+
+    @JsonProperty
     private int page;
 
     @JsonProperty
@@ -37,4 +40,7 @@ public class BookDetails {
 
     @JsonProperty
     private Category category;
+
+    @JsonProperty
+    private String category_name;
 }

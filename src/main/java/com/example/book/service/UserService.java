@@ -3,6 +3,7 @@ package com.example.book.service;
 import com.example.book.domain.UserHandling;
 import com.example.book.domain.UserInfoDetails;
 import com.example.book.domain.UserRegister;
+import com.example.book.entity.Book;
 import com.example.book.entity.Favorite;
 import com.example.book.entity.Role;
 import com.example.book.entity.User;
@@ -101,6 +102,29 @@ public class UserService implements UserDetailsService {
             userInfoDetailsList.add(userInfoDetails);
         }
         return userInfoDetailsList;
+    }
+
+    // Get recommended users who share the same favorite books as logged-in user
+    public List<UserInfoDetails> getUserWhoShareTheSameFavorite(){
+        List<User> shared_users = new ArrayList<>();
+        List<UserInfoDetails> shared_user_detailsList = new ArrayList<>();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User current_user = userRepository.findUserByEmail(auth.getName()).get();
+        List<User> system_users = userRepository.findNonFriendUsersByUserIdAndLoggedInUserId(current_user.getId());
+        System.out.println(system_users.size());
+        for (User user : system_users){
+            for (Book book : current_user.getFavorites().getBooks()){
+                if (user.getFavorites().getBooks().contains(book)){
+                    shared_users.add(user);
+                }
+            }
+        }
+        for (User user : shared_users){
+            UserInfoDetails shared_user_details = mapper.map(user, UserInfoDetails.class);
+            shared_user_details.setRole_name(user.getRole().getName());
+            shared_user_detailsList.add(shared_user_details);
+        }
+        return shared_user_detailsList;
     }
 
     public void configureUsersIncludeFriends(Model model, String username, String friend_name){
