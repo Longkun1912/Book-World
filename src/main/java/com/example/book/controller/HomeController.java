@@ -62,6 +62,11 @@ public class HomeController {
         }
     }
 
+    @GetMapping(value = "/server-error")
+    public String errorPage(){
+        return "error_page";
+    }
+
     @GetMapping(value = "/register")
     public String register(Model model){
         model.addAttribute("user",new UserRegister());

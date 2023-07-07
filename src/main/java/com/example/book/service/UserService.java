@@ -111,7 +111,9 @@ public class UserService implements UserDetailsService {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User current_user = userRepository.findUserByEmail(auth.getName()).get();
         List<User> system_users = userRepository.findNonFriendUsersByUserIdAndLoggedInUserId(current_user.getId());
-        System.out.println(system_users.size());
+        // Remove admin user
+        system_users.removeIf(user -> Objects.equals(user.getRole().getName(), "admin"));
+        // Get other user who share the same favorite books
         for (User user : system_users){
             for (Book book : current_user.getFavorites().getBooks()){
                 if (user.getFavorites().getBooks().contains(book)){

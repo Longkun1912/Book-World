@@ -42,6 +42,7 @@
 }
 
 .recommended-friends{
+    margin-top: 30px;
     border-radius: 12px;
     background-color: aliceblue;
     margin-bottom: 50px;
@@ -66,3 +67,4 @@
     width: 100px;
     height: 100px;
 }
+
