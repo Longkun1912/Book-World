@@ -1,0 +1,9 @@
+.history-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#user-histories{
+    width: 80%;
+    border: 1px solid;
+}

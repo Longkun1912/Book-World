@@ -1,5 +1,6 @@
 package com.example.book.controller;
 
+import com.example.book.domain.UserActionHistory;
 import com.example.book.domain.UserHandling;
 import com.example.book.domain.UserInfoDetails;
 import com.example.book.entity.User;
@@ -155,5 +156,13 @@ public class AdminController {
     public String removeFriend(@PathVariable("id") UUID user_id){
         User user = userService.removeFriend(user_id);
         return "redirect:/admin/friend-list";
+    }
+
+    @GetMapping(value = "/user-history/{id}")
+    public String viewUserHistory(@PathVariable("id") UUID user_id, Model model){
+        userService.addUserAttributesToModel(model);
+        List<UserActionHistory> userActionHistories = userService.getUserActionHistory(user_id);
+        model.addAttribute("histories", userActionHistories);
+        return "admin/user_history";
     }
 }

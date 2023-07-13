@@ -51,9 +51,12 @@
         <td th:text="${user.phone_number}"></td>
         <td th:text="${user.status}"></td>
         <td th:text="${user.last_updated}"></td>
-        <td style="max-width: 200px; display: flex; margin-left: -10px;">
+        <td style="max-width: 200vh; display: flex; margin-left: -10px;">
           <a type="button" style="margin-left: 10px;" class="btn btn-primary" th:href="@{/admin/edit-user/{id}(id=@{${user.id}})}">
             Edit
+          </a>
+          <a type="button" style="margin-left: 10px;" class="btn btn-secondary" th:href="@{/admin/user-history/{id}(id=@{${user.id}})}">
+            History
           </a>
           <a type="button" style="margin-left: 5px;" class="btn btn-danger" th:href="@{/admin/delete-user/{id}(id=@{${user.id}})}">
             Delete

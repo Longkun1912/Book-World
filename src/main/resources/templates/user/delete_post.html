@@ -11,7 +11,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content" style="width: 120%;">
                 <div class="modal-header">
-                    <h5 class="modal-title" style="font-size: 30px; margin-left: 110px;">Delete Post Confirmation</h5>
+                    <h5 class="modal-title" style="font-size: 30px; margin-left: 20%;">Delete Post Confirmation</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -21,7 +21,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                    <a id="post-button" type="button" class="btn btn-primary" th:href="@{/user/delete-post/{id}(id=@{${post.id}})}">Confirm deletion</a>
+                    <a style="margin-left: 1%;" id="post-button" type="button" class="btn btn-primary" th:href="@{/user/delete-post/{id}(id=@{${post.id}})}">Confirm deletion</a>
                 </div>
             </div>
         </div>

@@ -1,14 +1,13 @@
 package com.example.book.service;
 
+import com.example.book.domain.UserActionHistory;
 import com.example.book.domain.UserHandling;
 import com.example.book.domain.UserInfoDetails;
 import com.example.book.domain.UserRegister;
-import com.example.book.entity.Book;
-import com.example.book.entity.Favorite;
-import com.example.book.entity.Role;
-import com.example.book.entity.User;
+import com.example.book.entity.*;
 import com.example.book.repository.FavoriteRepository;
 import com.example.book.repository.RoleRepository;
+import com.example.book.repository.UserHistoryRepository;
 import com.example.book.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -34,6 +33,7 @@ public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final FavoriteRepository favoriteRepository;
+    private final UserHistoryRepository userHistoryRepository;
 
     public Set<SimpleGrantedAuthority> getRole(User user) {
         Role role = user.getRole();
@@ -190,6 +190,21 @@ public class UserService implements UserDetailsService {
         User friend = userRepository.findUserById(friend_id).orElseThrow();
         current_user.getFriends().remove(friend);
         return userRepository.save(current_user);
+    }
+
+    // Get Action history of a specific user
+    public List<UserActionHistory> getUserActionHistory(UUID user_id){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/M/yyyy 'at' hh:mm a");
+        User user = userRepository.findUserById(user_id).orElseThrow();
+        List<UserActionHistory> userActionHistories = new ArrayList<>();
+        List<UserHistory> userHistories = userHistoryRepository.getHistoryByUser(user);
+        for (UserHistory userHistory : userHistories){
+            UserActionHistory userActionHistory = mapper.map(userHistory, UserActionHistory.class);
+            userActionHistory.setAction_detail(user.getUsername() + " " + userHistory.getAction_detail());
+            userActionHistory.setAction_time(formatter.format(userHistory.getTrack_time()));
+            userActionHistories.add(userActionHistory);
+        }
+        return userActionHistories;
     }
 
     public List<String> getUserStatus(){

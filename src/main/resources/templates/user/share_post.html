@@ -10,14 +10,14 @@
   <div class="modal fade" th:id="'sharePost-' + ${post.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content" style="width: 120%;">
-        <<div class="modal-header">
+        <div class="modal-header">
         <h5 class="modal-title" style="font-size: 30px; margin-left: 35%;">Who to share?</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
         <div class="modal-body">
-          <ul style="list-style: none; margin-left: 10px; width: 550px !important;" class="friend-items">
+          <ul style="list-style: none; margin-left: 5%; width: 90% !important;" class="friend-items">
             <li th:each="friend : ${friends}">
               <div class="friend-list">
                 <div class="row" style="width: 500px;">
@@ -25,11 +25,11 @@
                     <img th:src="${friend.image_url}" class="friend-avatar">
                   </div>
                   <div class="col-md-7 col-sm-7 friend-details">
-                    <h5 style="margin-left: 10px;"><a href="#" th:text="${friend.username}" class="profile-link"></a></h5>
-                    <p style="margin-left: 10px; font-size: 15px;" th:text="${friend.email}"></p>
+                    <h5 style="margin-left: 5%;"><a href="#" th:text="${friend.username}" class="profile-link"></a></h5>
+                    <p style="margin-left: 5%; font-size: 15px;" th:text="${friend.email}"></p>
                   </div>
                   <div class="col-md-3 col-sm-3 share-btn">
-                    <a style="height: 40px;" th:href="@{/user/share-post(member_id=${friend.id}, post_id=${post.id})}" type="button" class="btn btn-primary">Share</a>
+                    <a style="height: 60%;" th:href="@{/user/share-post(member_id=${friend.id}, post_id=${post.id})}" type="button" class="btn btn-primary">Share</a>
                   </div>
                 </div>
               </div>
