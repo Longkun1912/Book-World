@@ -26,4 +26,10 @@ public class UserHistory {
     @ManyToOne
     @JoinColumn(name = "user_history", nullable = false)
     private User user;
+
+    public UserHistory(User user, LocalDateTime track_time, String action_detail){
+        this.user = user;
+        this.track_time = track_time;
+        this.action_detail = action_detail;
+    }
 }

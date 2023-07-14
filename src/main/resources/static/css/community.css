@@ -161,9 +161,8 @@
 #flash-message{
     display: flex;
     justify-content: center;
-    margin-top: -50px;
-    margin-left: 350px;
-    width: 600px;
+    margin-left: 25%;
+    width: 45%;
 }
 
 #danger-message{

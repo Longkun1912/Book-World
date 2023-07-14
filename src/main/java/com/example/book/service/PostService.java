@@ -5,10 +5,7 @@ import com.example.book.domain.PostDetails;
 import com.example.book.domain.PostHandling;
 import com.example.book.domain.UserInfoDetails;
 import com.example.book.entity.*;
-import com.example.book.repository.MessageRepository;
-import com.example.book.repository.PostRepository;
-import com.example.book.repository.PostSharingRepository;
-import com.example.book.repository.UserRepository;
+import com.example.book.repository.*;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Valid;
 import jakarta.validation.Validator;
@@ -35,6 +32,7 @@ public class PostService {
     private final PostRepository postRepository;
     private final PostSharingRepository postSharingRepository;
     private final UserRepository userRepository;
+    private final UserHistoryRepository userHistoryRepository;
     private final RateService rateService;
     private final CommentService commentService;
 
@@ -44,6 +42,9 @@ public class PostService {
         User receiver = userRepository.findUserById(user_id).orElseThrow();
         Post post = postRepository.findPostById(post_id).orElseThrow();
         PostSharing postSharing = new PostSharing(UUID.randomUUID(),current_user,receiver,post, LocalDateTime.now());
+        // Add new user action to user history
+        UserHistory userHistory = new UserHistory(current_user,LocalDateTime.now(),"share a post");
+        userHistoryRepository.save(userHistory);
         return postSharingRepository.save(postSharing);
     }
 
@@ -60,9 +61,14 @@ public class PostService {
         post.setContent_text(postHandling.getContent_text());
         post.setCreated_time(LocalDateTime.now());
         postRepository.save(post);
+        // Add new user action to user history
+        UserHistory userHistory = new UserHistory(user,LocalDateTime.now(),"create a post");
+        userHistoryRepository.save(userHistory);
     }
 
     public void configureUpdatedPostBeforeSaving(@Valid PostHandling postHandling, RedirectAttributes redirectAttributes) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User current_user = userRepository.findUserByEmail(auth.getName()).get();
         Set<ConstraintViolation<PostHandling>> violations = validator.validate(postHandling);
         if (!violations.isEmpty()){
             String message = "Error while updating post. Validation failed.";
@@ -80,12 +86,20 @@ public class PostService {
             }
             post.setCreated_time(LocalDateTime.now());
             postRepository.save(post);
+            // Add new user action to user history
+            UserHistory userHistory = new UserHistory(current_user,LocalDateTime.now(),"update a post");
+            userHistoryRepository.save(userHistory);
         }
     }
 
     public void deletePost(UUID post_id){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User current_user = userRepository.findUserByEmail(auth.getName()).get();
         Post post = postRepository.findById(post_id).orElseThrow();
         postRepository.delete(post);
+        // Add new user action to user history
+        UserHistory userHistory = new UserHistory(current_user,LocalDateTime.now(),"remove a post");
+        userHistoryRepository.save(userHistory);
     }
 
     public void configureCommunityPage(Model model, RedirectAttributes redirectAttributes){
@@ -186,7 +200,12 @@ public class PostService {
     }
 
     public void deleteSharedPost(UUID shared_id){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User current_user = userRepository.findUserByEmail(auth.getName()).get();
         PostSharing existing_shared_post = postSharingRepository.findById(shared_id).orElseThrow();
         postSharingRepository.delete(existing_shared_post);
+        // Add new user action to user history
+        UserHistory userHistory = new UserHistory(current_user,LocalDateTime.now(),"delete their shared post");
+        userHistoryRepository.save(userHistory);
     }
 }

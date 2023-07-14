@@ -5,8 +5,10 @@ import com.example.book.domain.UserInfoDetails;
 import com.example.book.entity.Chat;
 import com.example.book.entity.Message;
 import com.example.book.entity.User;
+import com.example.book.entity.UserHistory;
 import com.example.book.repository.ChatRepository;
 import com.example.book.repository.MessageRepository;
+import com.example.book.repository.UserHistoryRepository;
 import com.example.book.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -30,6 +32,8 @@ public class ChatService {
     private final MessageRepository messageRepository;
     private final UserRepository userRepository;
     private final ChatRepository chatRepository;
+    private final UserHistoryRepository userHistoryRepository;
+
     public Chat startAChat(UUID user_id){
         Chat chat;
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -48,6 +52,9 @@ public class ChatService {
             chat.setCreated_time(LocalDateTime.now());
             chat.setLast_access(LocalDateTime.now());
         }
+        // Add new user action to user history
+        UserHistory userHistory = new UserHistory(current_user,LocalDateTime.now(),"start a chat with one other");
+        userHistoryRepository.save(userHistory);
         return chatRepository.save(chat);
     }
 
@@ -197,11 +204,16 @@ public class ChatService {
     }
 
     public void deleteChat(UUID chat_id){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User current_user = userRepository.findUserByEmail(auth.getName()).orElseThrow();
         Optional<Chat> existed_chat = chatRepository.findById(chat_id);
         if (existed_chat.isPresent()){
             System.out.println("Chat4 is present.");
             Chat chat = existed_chat.get();
             chatRepository.delete(chat);
+            // Add new user action to user history
+            UserHistory userHistory = new UserHistory(current_user,LocalDateTime.now(),"add a new friend");
+            userHistoryRepository.save(userHistory);
         }
         else {
             System.out.println("Chat4 is not present.");

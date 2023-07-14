@@ -184,6 +184,9 @@ public class UserService implements UserDetailsService {
         User current_user = userRepository.findUserByEmail(auth.getName()).orElseThrow();
         User friend = userRepository.findUserById(friend_id).orElseThrow();
         current_user.getFriends().add(friend);
+        // Add new user action to user history
+        UserHistory userHistory = new UserHistory(current_user,LocalDateTime.now(),"add a new friend");
+        userHistoryRepository.save(userHistory);
         return userRepository.save(current_user);
     }
 
@@ -192,6 +195,9 @@ public class UserService implements UserDetailsService {
         User current_user = userRepository.findUserByEmail(auth.getName()).orElseThrow();
         User friend = userRepository.findUserById(friend_id).orElseThrow();
         current_user.getFriends().remove(friend);
+        // Add new user action to user history
+        UserHistory userHistory = new UserHistory(current_user,LocalDateTime.now(),"remove a friend");
+        userHistoryRepository.save(userHistory);
         return userRepository.save(current_user);
     }
 
