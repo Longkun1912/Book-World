@@ -36,11 +36,10 @@ public class AdminController {
         System.out.println("Access role: "+access_role);
 
         if(!access_role.contains("admin")){
-            return "forbidden_page";
+            return "error_page";
         }
         else {
-            userService.addUserAttributesToModel(model);
-            return "admin/dashboard";
+            return "redirect:/admin/user-index";
         }
     }
 
@@ -49,6 +48,7 @@ public class AdminController {
         userService.addUserAttributesToModel(model);
         List<UserInfoDetails> userInfoDetailsList = userService.configureUserInfo();
         model.addAttribute("users", userInfoDetailsList);
+        model.addAttribute("user_number", userInfoDetailsList.size());
         return "admin/user_index";
     }
 

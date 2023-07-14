@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -53,7 +54,8 @@ public class FavoriteService {
         User user = userRepository.findUserByEmail(auth.getName()).get();
         Optional<Favorite> existing_favorite = favoriteRepository.findFavoriteByUser(user.getId());
         if (existing_favorite.isEmpty()){
-            favorite = new Favorite(user.getId(), user);
+            favorite = new Favorite(user);
+            favorite.setId(UUID.randomUUID());
             favoriteRepository.save(favorite);
         }
         else {

@@ -42,7 +42,9 @@ create table books (
 );
 
 create table favorites (
-    id uuid primary key references users(id)
+    id uuid primary key,
+    user_id uuid not null,
+    foreign key(user_id) references users(id)
 );
 
 create table favorite_books(

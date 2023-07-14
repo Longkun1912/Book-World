@@ -25,10 +25,12 @@
     </button>
   </nav>
   <div class="table-container">
-    <button type="button"
-            class="btn btn-success"
-            style="margin-bottom: 25px;"
-            th:onclick="window.location.href='/admin/add-user'">Add New User</button>
+    <div style="display: flex;">
+      <h2><span th:text="${user_number}"></span> registered users</h2>
+      <button type="button" class="btn btn-success" style="margin-bottom: 3%; margin-left: 65%;"
+              th:onclick="window.location.href='/admin/add-user'">Add New User
+      </button>
+    </div>
     <table class="table" id="user-table">
       <thead class="thead-dark">
       <tr>

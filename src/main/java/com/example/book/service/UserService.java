@@ -67,7 +67,8 @@ public class UserService implements UserDetailsService {
         user.setRole(roleRepository.findRoleByName(userHandling.getInput_role()));
         user.setLast_updated(LocalDateTime.now());
         userRepository.save(user);
-        Favorite favorite = new Favorite(user.getId(), user);
+        Favorite favorite = new Favorite(user);
+        favorite.setId(UUID.randomUUID());
         favoriteRepository.save(favorite);
     }
 
@@ -91,8 +92,10 @@ public class UserService implements UserDetailsService {
 
     // Configure user data before showing in user index
     public List<UserInfoDetails> configureUserInfo(){
-        Role role = roleRepository.findRoleByName("user");
-        List<User> users = userRepository.findUserByRole(role);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User current_user = userRepository.findUserByEmail(auth.getName()).get();
+        List<User> users = userRepository.findAll();
+        users.remove(current_user);
         List<UserInfoDetails> userInfoDetailsList = new ArrayList<>();
         for (User user : users){
             UserInfoDetails userInfoDetails = mapper.map(user, UserInfoDetails.class);

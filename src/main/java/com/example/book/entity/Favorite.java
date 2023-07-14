@@ -19,8 +19,7 @@ public class Favorite {
     private UUID id;
 
     @OneToOne
-    @MapsId
-    @JoinColumn(name = "id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @ManyToMany
@@ -29,8 +28,7 @@ public class Favorite {
             inverseJoinColumns = @JoinColumn(name = "book_id"))
     private Set<Book> books = new HashSet<>();
 
-    public Favorite(UUID id, User user){
-        this.id = id;
+    public Favorite(User user){
         this.user = user;
     }
 }
