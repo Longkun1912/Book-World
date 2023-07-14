@@ -54,11 +54,13 @@ public class FavoriteService {
         User user = userRepository.findUserByEmail(auth.getName()).get();
         Optional<Favorite> existing_favorite = favoriteRepository.findFavoriteByUser(user);
         if (existing_favorite.isEmpty()){
+            System.out.println("There are no favorite for this user");
             favorite = new Favorite(user);
             favorite.setId(UUID.randomUUID());
             favoriteRepository.save(favorite);
         }
         else {
+            System.out.println("Existing favorite found");
             favorite = existing_favorite.get();
         }
         return favorite;
