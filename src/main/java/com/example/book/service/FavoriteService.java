@@ -52,7 +52,7 @@ public class FavoriteService {
         Favorite favorite;
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userRepository.findUserByEmail(auth.getName()).get();
-        Optional<Favorite> existing_favorite = favoriteRepository.findFavoriteByUser(user.getId());
+        Optional<Favorite> existing_favorite = favoriteRepository.findFavoriteByUser(user);
         if (existing_favorite.isEmpty()){
             favorite = new Favorite(user);
             favorite.setId(UUID.randomUUID());
