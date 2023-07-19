@@ -19,9 +19,17 @@ html {
 ::-ms-reveal {
     display: none;
 }
-#confirm-adding{
+#confirm-changes{
     margin-left: 5%;
     margin-right: 5%;
     margin-bottom: 5%;
     color: white !important;
+}
+
+#cancel-changes{
+    margin-top: 0 !important;
+    margin-right: 5%;
+    margin-bottom: 5%;
+    color: white !important;
+    background-color: slategrey;
 }

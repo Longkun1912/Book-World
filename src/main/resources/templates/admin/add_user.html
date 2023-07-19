@@ -237,10 +237,14 @@
         </div>
 
         <div class="d-flex justify-content-center">
-          <button id="confirm-adding" type=submit
+          <button id="confirm-changes" type=submit
                   class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">
             Confirm Adding
           </button>
+          <a type="button" th:href="@{/admin/user-index}" id="cancel-changes"
+                  class="btn btn-secondary btn-block btn-lg gradient-custom-4 text-body">
+            Cancel
+          </a>
         </div>
       </form>
     </div>

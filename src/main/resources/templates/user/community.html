@@ -58,15 +58,19 @@
                     ...
                   </button>
                   <div class="dropdown-menu">
-                      <button class="dropdown-item edit-post-button" data-toggle="modal" data-target="#editPost">
+                      <button class="dropdown-item edit-post-button" data-toggle="modal"
+                              th:data-target="${post.creator_detail.id == user_detail.id || post.creator_detail.role_name == 'admin' ? '#editPost' : '#forbiddenRequest'}"
+                      >
                       Edit post
                     </button>
-                    <button class="dropdown-item delete-post-button" data-toggle="modal" data-target="#deletePost">
+                    <button class="dropdown-item delete-post-button" data-toggle="modal"
+                            th:data-target="${post.creator_detail.id == user_detail.id || post.creator_detail.role_name == 'admin' ? '#deletePost' : '#forbiddenRequest'}">
                       Delete post
                     </button>
                   </div>
                   <div th:replace="user/edit_post :: edit-post" th:with="post=${post}"></div>
                   <div th:replace="user/delete_post :: delete-post" th:with="post=${post}"></div>
+                  <div th:replace="forbidden_modal :: forbidden-request"></div>
                 </div>
               </div>
               <div class="post-content">

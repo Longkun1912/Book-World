@@ -115,7 +115,6 @@ public class ChatController {
         return "redirect:/user/message-index";
     }
 
-
     // Edit message for admin
     @RequestMapping(value = "/admin/edit-message/{id}", method = RequestMethod.POST)
     public String editMessage(@PathVariable("id") UUID message_id, @RequestParam("message_text") String message_text){
