@@ -1,6 +1,7 @@
 package com.example.book.controller;
 
 import com.example.book.domain.UserRegister;
+import com.example.book.entity.User;
 import com.example.book.repository.UserRepository;
 import com.example.book.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,9 +19,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.Objects;
 
 @Controller
@@ -52,7 +51,13 @@ public class HomeController {
                 return "redirect:/admin/dashboard";
             }
             else if (role.contains("user")){
-                return "redirect:/user/home-page";
+                User user = userRepository.findUserByEmail(authentication.getName()).orElseThrow();
+                if (user.getStatus().contains("Disabled")){
+                    return "redirect:/user/access-denied";
+                }
+                else {
+                    return "redirect:/user/home-page";
+                }
             }
             else{
                 return "error_page";

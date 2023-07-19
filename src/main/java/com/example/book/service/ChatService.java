@@ -212,7 +212,7 @@ public class ChatService {
             Chat chat = existed_chat.get();
             chatRepository.delete(chat);
             // Add new user action to user history
-            UserHistory userHistory = new UserHistory(current_user,LocalDateTime.now(),"add a new friend");
+            UserHistory userHistory = new UserHistory(current_user,LocalDateTime.now(),"delete a chat");
             userHistoryRepository.save(userHistory);
         }
         else {

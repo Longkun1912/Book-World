@@ -20,6 +20,11 @@ public class UserController {
     private final UserService userService;
     private final BookService bookService;
 
+    @GetMapping(value = "access-denied")
+    public String bannedUserPage(){
+        return "user/access_denied";
+    }
+
     @GetMapping(value = "/home-page")
     public String userHome(Model model){
         userService.addUserAttributesToModel(model);
