@@ -83,4 +83,15 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "friend_id")
     )
     private List<User> friends;
+
+    // Function called before remove a user
+    @PreRemove
+    private void removeFriends() {
+        for (User friend : friends) {
+            // Remove the user from the friend's friends list
+            friend.getFriends().remove(this);
+        }
+        // Clear the friends list of the user being deleted
+        friends.clear();
+    }
 }
