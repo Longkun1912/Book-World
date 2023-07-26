@@ -5,6 +5,7 @@ import com.example.book.system.ValidImageURL;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
@@ -25,6 +26,8 @@ public class UserRegister {
 
     @JsonProperty
     @NotEmpty(message = "This field cannot be empty.")
+    @Size(max = 11, message = "Phone cannot exceed 11 numbers.")
+    @Pattern(regexp = "\\d+", message = "Phone must contain only numeric characters.")
     private String phone_number;
 
     @JsonProperty
