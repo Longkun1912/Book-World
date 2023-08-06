@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.UUID;
 
 @Controller
@@ -132,8 +131,7 @@ public class AdminController {
 
     @GetMapping("/delete-user/{id}")
     public String deleteUser(@PathVariable("id") UUID user_id){
-        Optional<User> user = Optional.of(userRepository.findById(user_id).orElseThrow());
-        userRepository.delete(user.get());
+        userService.deleteUser(user_id);
         return "redirect:/admin/user-index";
     }
 

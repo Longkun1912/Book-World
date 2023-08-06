@@ -2,7 +2,10 @@ package com.example.book.repository;
 
 import com.example.book.entity.Role;
 import com.example.book.entity.User;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -48,4 +51,9 @@ public interface UserRepository extends JpaRepository<User, UUID> {
             "AND (u.username LIKE CONCAT('%', COALESCE(:username, ''), '%')" +
             "OR :username IS NULL)")
     List<User> searchNonFriendUsersByUserIdAndLoggedInUserId(@Param("userId") UUID userId, @Param("username") String username);
+
+    @Modifying
+    @Query(value = "DELETE FROM user_friends WHERE (user_id = :user_id AND friend_id = :friend_id) " +
+            "OR (user_id = :friend_id AND friend_id = :user_id)", nativeQuery = true)
+    void deleteFriendshipRelationship(@Param("user_id") UUID user_id, @Param("friend_id") UUID friend_id);
 }

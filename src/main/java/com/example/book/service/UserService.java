@@ -9,6 +9,7 @@ import com.example.book.repository.FavoriteRepository;
 import com.example.book.repository.RoleRepository;
 import com.example.book.repository.UserHistoryRepository;
 import com.example.book.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.Authentication;
@@ -81,6 +82,18 @@ public class UserService implements UserDetailsService {
             updated_user.setLast_updated(LocalDateTime.now());
             updated_user.setPassword(passwordEncoder.encode(userHandling.getPassword()));
             userRepository.save(updated_user);
+        }
+    }
+
+    @Transactional
+    public void deleteUser(UUID user_id) {
+        Optional<User> existingUser = userRepository.findById(user_id);
+        if (existingUser.isPresent()) {
+            User user = existingUser.get();
+            for (User system_user : userRepository.findAll()){
+                userRepository.deleteFriendshipRelationship(user_id, system_user.getId());
+            }
+            userRepository.delete(user);
         }
     }
 
