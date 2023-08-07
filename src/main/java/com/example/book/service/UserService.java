@@ -56,6 +56,7 @@ public class UserService implements UserDetailsService {
         user.setId(UUID.randomUUID());
         user.setPassword(passwordEncoder.encode(userRegister.getPassword()));
         user.setRole(roleRepository.findRoleByName("user"));
+        user.setStatus("Enabled");
         user.setLast_updated(LocalDateTime.now());
         userRepository.save(user);
     }
