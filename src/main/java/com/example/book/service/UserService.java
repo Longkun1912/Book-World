@@ -59,6 +59,9 @@ public class UserService implements UserDetailsService {
         user.setStatus("Enabled");
         user.setLast_updated(LocalDateTime.now());
         userRepository.save(user);
+        Favorite favorite = new Favorite(user);
+        favorite.setId(UUID.randomUUID());
+        favoriteRepository.save(favorite);
     }
 
     // Save user to database after added by admin
