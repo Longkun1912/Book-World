@@ -64,6 +64,11 @@ public class AdminController {
             userService.updateModel(model);
             return "admin/add_user";
         }
+        else if (userHandling.getConfirm_password() == null || userHandling.getConfirm_password().isEmpty()){
+            userService.updateModel(model);
+            result.rejectValue("confirm_password",null,"This field cannot be empty.");
+            return "admin/add_user";
+        }
         else if (userRepository.findUserByName(userHandling.getUsername()).isPresent()) {
             userService.updateModel(model);
             result.rejectValue("username",null,"Username already exists.");
@@ -103,24 +108,9 @@ public class AdminController {
             userService.updateModel(model);
             return "admin/edit_user";
         }
-        else if (userRepository.findUserByName(userHandling.getUsername()).isPresent()) {
-            userService.updateModel(model);
-            result.rejectValue("username",null,"Username already exists.");
-            return "admin/edit_user";
-        }
         else if (userRepository.findUserByEmail(userHandling.getEmail()).isPresent()) {
             userService.updateModel(model);
             result.rejectValue("email",null,"Email already exists.");
-            return "admin/edit_user";
-        }
-        else if (userRepository.findUserByPhoneNumber(userHandling.getPhone_number()).isPresent()) {
-            userService.updateModel(model);
-            result.rejectValue("phone_number",null,"Phone number already exists.");
-            return "admin/edit_user";
-        }
-        else if(!Objects.equals(userHandling.getPassword(), userHandling.getConfirm_password())){
-            userService.updateModel(model);
-            result.rejectValue("confirm_password",null,"Confirm password does not match.");
             return "admin/edit_user";
         }
         else {

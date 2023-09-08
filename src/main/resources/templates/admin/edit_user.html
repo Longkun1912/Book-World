@@ -48,16 +48,11 @@
               <input
                       type="text"
                       id="username"
-                      style="border: 1px solid #4f4f4f; width: 400px;;"
                       th:field="*{username}"
+                      style="border: 1px solid #4f4f4f; width: 400px;;"
                       class="form-control form-control-lg"
+                      readonly="readonly"
               />
-              <div
-                      class="alert alert-warning"
-                      style="width: 400px;"
-                      th:if="${#fields.hasErrors('username')}"
-                      th:errors="*{username}"
-              ></div>
             </div>
           </div>
           <div class="col-md-6 mb-4">
@@ -92,14 +87,8 @@
                       th:field="*{phone_number}"
                       class="form-control form-control-lg"
                       id="phone_number"
+                      readonly="readonly"
               />
-
-              <div
-                      class="alert alert-warning"
-                      style="width: 400px;"
-                      th:if="${#fields.hasErrors('phone_number')}"
-                      th:errors="*{phone_number}"
-              ></div>
             </div>
           </div>
           <div class="col-md-6 mb-4">
@@ -163,26 +152,6 @@
               </li>
             </ul>
           </div>
-          <div class="col-md-6 mb-4 pb-2">
-            <label class="form-label" for="confirmPassword"
-            >Confirm Password</label
-            >
-
-            <input
-                    type="password"
-                    id="confirmPassword"
-                    style="border: 1px solid #4f4f4f; width: 400px; background-color: antiquewhite;"
-                    th:field="*{confirm_password}"
-                    class="form-control form-control-lg"
-                    autocomplete="off"
-            />
-            <div
-                    class="alert alert-warning"
-                    style="width: 400px;"
-                    th:if="${#fields.hasErrors('confirm_password')}"
-                    th:errors="*{confirm_password}"
-            ></div>
-          </div>
         </div>
 
         <div class="row">
@@ -238,7 +207,7 @@
         </div>
 
         <div class="d-flex justify-content-center">
-          <button id="confirm-changes" type=submit
+          <button id="confirm-changes" type="submit"
                   class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">
             Confirm Editing
           </button>

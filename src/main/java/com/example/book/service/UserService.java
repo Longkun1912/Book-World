@@ -1,9 +1,6 @@
 package com.example.book.service;
 
-import com.example.book.domain.UserActionHistory;
-import com.example.book.domain.UserHandling;
-import com.example.book.domain.UserInfoDetails;
-import com.example.book.domain.UserRegister;
+import com.example.book.domain.*;
 import com.example.book.entity.*;
 import com.example.book.repository.FavoriteRepository;
 import com.example.book.repository.RoleRepository;
@@ -12,6 +9,7 @@ import com.example.book.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -124,6 +122,13 @@ public class UserService implements UserDetailsService {
         return userInfoDetailsList;
     }
 
+    public void viewUserPersonalInfo(Model model){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User current_user = userRepository.findUserByEmail(auth.getName()).get();
+        UserBasicInfo userBasicInfo = mapper.map(current_user, UserBasicInfo.class);
+        model.addAttribute("user_info", userBasicInfo);
+    }
+
     // Get recommended users who share the same favorite books as logged-in user
     public List<UserInfoDetails> getUserWhoShareTheSameFavorite(){
         List<User> shared_users = new ArrayList<>();
@@ -231,6 +236,22 @@ public class UserService implements UserDetailsService {
             userActionHistories.add(userActionHistory);
         }
         return userActionHistories;
+    }
+
+    public void saveUpdatedUserInfo(UserBasicInfo userBasicInfo){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Optional<User> existed_user = userRepository.findUserById(userBasicInfo.getId());
+        if(existed_user.isPresent()){
+            User updated_user = existed_user.get();
+            updated_user.setEmail(userBasicInfo.getEmail());
+            updated_user.setPhone_number(userBasicInfo.getPhone_number());
+            updated_user.setImage_url(userBasicInfo.getImage_url());
+            updated_user.setLast_updated(LocalDateTime.now());
+            updated_user.setPassword(passwordEncoder.encode(userBasicInfo.getPassword()));
+            userRepository.save(updated_user);
+            UsernamePasswordAuthenticationToken newAuth = new UsernamePasswordAuthenticationToken(userBasicInfo.getEmail(), auth.getCredentials(), auth.getAuthorities());
+            SecurityContextHolder.getContext().setAuthentication(newAuth);
+        }
     }
 
     public List<String> getUserStatus(){

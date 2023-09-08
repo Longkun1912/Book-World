@@ -53,6 +53,9 @@
                 </ul>
                 <ul class="navbar-nav d-flex flex-row right-navbar" style="margin-right: 2%;">
                     <li class="nav-item">
+                        <a class="nav-link" th:href="@{/user/personal-info}" th:text="${user_detail.username}"></a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" th:href="@{/logout}">Logout</a>
                     </li>
                 </ul>
