@@ -20,6 +20,7 @@ public class BookHandling {
 
     @JsonProperty
     @ValidImageURL
+    @NotEmpty(message = "This field not be empty.")
     private String image_url;
 
     @JsonProperty
