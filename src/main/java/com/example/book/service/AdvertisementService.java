@@ -6,6 +6,9 @@ import com.example.book.entity.Advertisement;
 import com.example.book.repository.AdvertisementRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
@@ -17,6 +20,7 @@ import java.util.*;
 
 @Service
 @RequiredArgsConstructor
+@EnableAsync
 public class AdvertisementService {
     private final AdvertisementRepository advertisementRepository;
     private final ModelMapper mapper;
@@ -93,5 +97,20 @@ public class AdvertisementService {
         Advertisement third_ad = random_ads.get(0);
         AdvertisementDetails third_advertisementDetails = mapper.map(third_ad, AdvertisementDetails.class);
         model.addAttribute("third_ad", third_advertisementDetails);
+    }
+
+    @Async
+    @Scheduled(fixedRate = 60000)
+    public void updateStatusForExpiredAdvertisements(){
+        System.out.println("Hello World");
+        LocalDateTime current_time = LocalDateTime.now();
+        List<Advertisement> advertisements = advertisementRepository.selectEnabledAdvertises("Enabled");
+
+        for (Advertisement advertisement : advertisements){
+            if (advertisement.getEnd_date().isAfter(current_time)){
+                advertisement.setStatus("Disabled");
+                advertisementRepository.save(advertisement);
+            }
+        }
     }
 }
