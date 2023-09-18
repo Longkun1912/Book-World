@@ -8,11 +8,11 @@
 <body>
 <div th:fragment="create-post">
   <div class="modal fade" id="createPost" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog" role="document" style="margin-top: 10vh;">
       <div class="modal-content" style="width: 120%;">
-        <form th:action="@{/user/create-post}" th:object="${post_create}" th:method="post">
+        <form th:action="@{/user/create-post}" th:object="${post_create}" th:method="post" style="width: 100%;">
           <div class="modal-header">
-            <h5 class="modal-title" style="font-size: 30px; margin-left: 35%;">Create post</h5>
+            <h5 class="modal-title" style="font-size: 4vh; margin-left: 30vh;">Create post</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -20,7 +20,7 @@
           <div class="modal-body">
             <div class="form-group">
               <label class="form-check-label">Enter post title:</label>
-              <input type="text" th:field="*{title}" class="form-control" style="margin-top: 2%;">
+              <input type="text" th:field="*{title}" class="form-control">
             </div>
             <div class="form-group">
               <label for="post_content" class="form-check-label">Enter post content:</label>

@@ -5,10 +5,7 @@ import com.example.book.domain.PostDetails;
 import com.example.book.domain.PostHandling;
 import com.example.book.domain.UserInfoDetails;
 import com.example.book.entity.Comment;
-import com.example.book.service.CommentService;
-import com.example.book.service.PostService;
-import com.example.book.service.RateService;
-import com.example.book.service.UserService;
+import com.example.book.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,6 +25,7 @@ public class CommunityController {
     private final PostService postService;
     private final RateService rateService;
     private final CommentService commentService;
+    private final AdvertisementService advertisementService;
 
     // Community page for admin
     @RequestMapping(value = "/admin/community", method = RequestMethod.GET)
@@ -43,6 +41,7 @@ public class CommunityController {
     @RequestMapping(value = "/user/community", method = RequestMethod.GET)
     public String socialPage(Model model, RedirectAttributes redirectAttributes){
         userService.addUserAttributesToModel(model);
+        advertisementService.getEnabledAdvertisements(model);
         postService.configureCommunityPage(model, redirectAttributes);
         List<UserInfoDetails> friends = userService.getFriendListByUser(null);
         model.addAttribute("friends", friends);

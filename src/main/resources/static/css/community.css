@@ -9,7 +9,7 @@
 #create-post{
     margin-left: 25%;
     margin-top: 2%;
-    width: 40%;
+    width: 90vh;
     height: 14vh;
     background-color: white;
     border-radius: 12px;
@@ -20,8 +20,9 @@
     margin-top: 10px;
 }
 .user-image{
-    height: 80px;
-    width: 80px;
+    height: 11vh;
+    width: 11vh;
+    margin-left: 1vh;
     border-radius: 50%;
 }
 #create-content{
@@ -31,17 +32,18 @@
     margin-top: 15px;
 }
 #input-content{
-    width: 475px;
-    height: 50px;
-    margin-top: 10px;
+    width: 70vh;
+    height: 7vh;
+    margin-left: 1.5vh;
+    margin-top: 1.5vh;
     cursor: pointer;
     background-color: #f2f3f4;
     text-align: left;
     border-radius: 5px;
 }
 #post-container{
-    margin-left: 25%;
-    width: 600px;
+    display: flex;
+    width: 90vh;
 }
 #community-post{
     background-color: white;
@@ -56,9 +58,14 @@
 
 .list-posts{
     list-style: none;
-    margin-top: 30px;
-    margin-left: -40px;
-    padding-bottom: 20px;
+    padding-bottom: 5vh;
+}
+
+.post-storage{
+    background-color: white;
+    border-radius: 12px;
+    margin-top: 5%;
+    width: 91vh;
 }
 
 .other-intro{
@@ -117,10 +124,9 @@
 }
 
 .provide-reaction{
-    margin-left: 22px;
-    margin-top: 10px;
-    width: 580px;
-    height: 60px;
+    margin-top: 2vh;
+    height: 10vh;
+    margin-right: 3vh;
     display: flex;
     align-items: center;
     justify-content: right;
@@ -220,6 +226,30 @@
     height: 50px;
     display: flex;
     align-items: center;
+}
+
+.stay-advertise{
+    margin-left: 5vh;
+    margin-top: 4.5vh;
+    height: 100%;
+    width: 44vh;
+    border-radius: 12px;
+    text-align: center;
+    background-color: cornsilk;
+}
+
+.advertisement-image{
+    width: 35vh;
+    height: 35vh;
+    margin-top: 1vh;
+    border-radius: 12px;
+    margin-left: 3vh;
+    margin-right: 3vh;
+}
+
+.advertisement-title{
+    color: black;
+    font-size: 3vh;
 }
 
 

@@ -2,6 +2,7 @@ package com.example.book.controller;
 
 import com.example.book.domain.BookDetails;
 import com.example.book.entity.Favorite;
+import com.example.book.service.AdvertisementService;
 import com.example.book.service.BookService;
 import com.example.book.service.FavoriteService;
 import com.example.book.service.UserService;
@@ -20,11 +21,13 @@ public class FavoriteController {
     private final UserService userService;
     private final BookService bookService;
     private final FavoriteService favoriteService;
+    private final AdvertisementService advertisementService;
 
     // View books in favorite for user
     @RequestMapping(path = "/user/favorite", method = RequestMethod.GET)
     public String viewBookInFavorite(Model model){
         userService.updateModel(model);
+        advertisementService.getEnabledAdvertisements(model);
         Set<BookDetails> books = favoriteService.viewBooksInFavorite();
         books.forEach(bookService::configureBookDetailForUser);
         model.addAttribute("books", books);

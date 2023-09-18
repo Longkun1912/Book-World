@@ -5,6 +5,7 @@ import com.example.book.domain.BookHandling;
 import com.example.book.entity.Category;
 import com.example.book.repository.BookRepository;
 import com.example.book.repository.CategoryRepository;
+import com.example.book.service.AdvertisementService;
 import com.example.book.service.BookService;
 import com.example.book.service.CategoryService;
 import com.example.book.service.UserService;
@@ -28,6 +29,7 @@ public class BookController {
     private final UserService userService;
     private final BookService bookService;
     private final CategoryService categoryService;
+    private final AdvertisementService advertisementService;
 
     // View books for admin
     @RequestMapping(path = "/admin/book-index", method = RequestMethod.GET)
@@ -71,6 +73,7 @@ public class BookController {
                             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Optional<LocalDate> startDate,
                             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Optional<LocalDate> endDate){
         userService.updateModel(model);
+        advertisementService.getEnabledAdvertisements(model);
         List<BookDetails> filtered_books;
         // Filter params
         Optional<Category> searched_category = categoryRepository.findCategoryByName(category_name);

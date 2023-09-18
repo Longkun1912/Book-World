@@ -6,6 +6,7 @@
     <link rel="stylesheet" th:href="@{/css/home.css}" />
     <link rel="stylesheet" th:href="@{/css/user/book-index.css}" />
     <link rel="stylesheet" th:href="@{/css/admin/book-index.css}" />
+    <link rel="stylesheet" th:href="@{/css/user/view-advertisement.css}">
     <link
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
             rel="stylesheet"
@@ -34,6 +35,7 @@
 <body>
 <div th:replace="user/home_bar :: userHomepage"></div>
 <section>
+    <div th:replace="user/advertisement_modal :: advertisement"></div>
     <div
             id="intro"
             class="bg-image"
@@ -143,5 +145,6 @@
     </div>
 </section>
 <script th:src="@{/js/user-datepicker-selection.js}"></script>
+<script th:src="@{/js/advertisement.js}"></script>
 </body>
 </html>

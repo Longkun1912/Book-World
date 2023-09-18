@@ -5,6 +5,7 @@
   <title>Favorite</title>
   <link rel="stylesheet" th:href="@{/css/home.css}" />
   <link rel="stylesheet" th:href="@{/css/user/book-index.css}" />
+  <link rel="stylesheet" th:href="@{/css/user/view-advertisement.css}">
   <link
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
           rel="stylesheet"
@@ -26,6 +27,7 @@
 <div th:replace="user/home_bar :: userHomepage"></div>
 <header>
   <section>
+    <div th:replace="user/advertisement_modal :: advertisement"></div>
     <div
             id="intro"
             class="bg-image"
@@ -34,28 +36,54 @@
             height: 100vh;
           "
     >
-      <div class="mask" style="background-color: rgba(0, 0, 0, 0.2)">
+      <div class="mask" style="background-color: rgba(0, 0, 0, 0.2); overflow-y: auto;">
         <div
                 class="container d-flex justify-content-center align-items-center h-100"
         >
-          <div class="favorite-container">
+          <div class="page-container">
             <h1 class="favorite-title">Your Favorite Books</h1>
-            <div class="favorite-books">
-              <ul class="favorite-list">
-                <li th:each="book : ${books}">
-                  <div class="book-item" style="height: 330px !important;">
-                    <img th:src="${book.image_url}" class="book-image"/>
-                    <button id="preview-book" class="btn btn-secondary"
-                            data-toggle="modal" th:data-target="'#previewBook-' + ${book.id}">
-                      Preview
-                    </button>
-                    <a id="not-favorite" type="button" class="btn btn-danger" th:href="@{/user/remove-favorite/{id}(id=${book.id})}">
-                      Not Favorite
-                    </a>
-                  </div>
-                  <div th:replace="user/book_preview :: preview-book" th:with="book=${book}"></div>
-                </li>
-              </ul>
+            <div class="ad-favorite">
+
+              <div class="stay-advertise">
+                <a th:href="${second_ad.link_url}">
+                  <h2 style="color: black; margin-top: 1vh;">Visit Now</h2>
+                  <img class="advertise-image" th:src="${second_ad.image_url}">
+                  <h3 style="margin-top: 5%; margin-left: 2vh; margin-right: 2vh;">
+                    <span class="advertise-title" th:text="${second_ad.title}"></span>
+                  </h3>
+                </a>
+              </div>
+
+              <div class="favorite-container">
+                <div class="favorite-books">
+                  <ul class="favorite-list">
+                    <li th:each="book : ${books}">
+                      <div class="book-item" style="height: 330px !important;">
+                        <img th:src="${book.image_url}" class="book-image"/>
+                        <button id="preview-book" class="btn btn-secondary"
+                                data-toggle="modal" th:data-target="'#previewBook-' + ${book.id}">
+                          Preview
+                        </button>
+                        <a id="not-favorite" type="button" class="btn btn-danger" th:href="@{/user/remove-favorite/{id}(id=${book.id})}">
+                          Not Favorite
+                        </a>
+                      </div>
+                      <div th:replace="user/book_preview :: preview-book" th:with="book=${book}"></div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="stay-advertise" style="margin-right: 5vh;">
+                <a th:href="${third_ad.link_url}">
+                  <h2 style="color: black; margin-top: 1vh;">Visit Now</h2>
+                  <img class="advertise-image" th:src="${third_ad.image_url}">
+                  <h3 style="margin-top: 5%; margin-left: 2vh; margin-right: 2vh;">
+                    <span class="advertise-title" th:text="${third_ad.title}"></span>
+                  </h3>
+                </a>
+              </div>
+
             </div>
           </div>
         </div>
@@ -63,5 +91,6 @@
     </div>
   </section>
 </header>
+<script th:src="@{/js/advertisement.js}"></script>
 </body>
 </html>

@@ -1,10 +1,12 @@
 package com.example.book.controller;
 
+import com.example.book.domain.AdvertisementDetails;
 import com.example.book.domain.BookDetails;
 import com.example.book.domain.UserBasicInfo;
 import com.example.book.domain.UserInfoDetails;
 import com.example.book.entity.User;
 import com.example.book.repository.UserRepository;
+import com.example.book.service.AdvertisementService;
 import com.example.book.service.BookService;
 import com.example.book.service.UserService;
 import jakarta.validation.Valid;
@@ -28,6 +30,7 @@ public class UserController {
     private final UserRepository userRepository;
     private final UserService userService;
     private final BookService bookService;
+    private final AdvertisementService advertisementService;
 
     @GetMapping(value = "/access-denied")
     public String bannedUserPage(){
@@ -80,7 +83,11 @@ public class UserController {
     @GetMapping(value = "/home-page")
     public String userHome(Model model){
         userService.addUserAttributesToModel(model);
+        // Advertisements
+        advertisementService.getEnabledAdvertisements(model);
+        // Recommended books
         List<BookDetails> recommended_books = bookService.getRecommendedBooksForUser();
+        // People who share the same favorites
         List<UserInfoDetails> shared_users = userService.getUserWhoShareTheSameFavorite();
         recommended_books.forEach(bookDetails -> System.out.println(bookDetails.getTitle()));
         model.addAttribute("users", shared_users);

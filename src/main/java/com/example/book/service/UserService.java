@@ -2,10 +2,7 @@ package com.example.book.service;
 
 import com.example.book.domain.*;
 import com.example.book.entity.*;
-import com.example.book.repository.FavoriteRepository;
-import com.example.book.repository.RoleRepository;
-import com.example.book.repository.UserHistoryRepository;
-import com.example.book.repository.UserRepository;
+import com.example.book.repository.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -47,6 +44,7 @@ public class UserService implements UserDetailsService {
                 user.get().getPassword(), getRole(user.get()));
         return userDetails;
     }
+
 
     // Save user to database after registration
     public void saveRegisteredUser(UserRegister userRegister){

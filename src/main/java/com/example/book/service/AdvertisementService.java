@@ -7,14 +7,13 @@ import com.example.book.repository.AdvertisementRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -63,11 +62,36 @@ public class AdvertisementService {
     }
 
     public void cancelAdvertisement(Integer advertisement_id){
-        Optional<Advertisement> existing_advertisement = advertisementRepository.findById(advertisement_id);
+        advertisementRepository.deleteById(advertisement_id);
+    }
 
-        if (existing_advertisement.isPresent()){
-            Advertisement advertisement = existing_advertisement.get();
-            advertisementRepository.delete(advertisement);
-        }
+    //Configure advertisements for user pages
+    public void getEnabledAdvertisements(Model model){
+        List<AdvertisementDetails> advertisementDetailsList = new ArrayList<>();
+        List<Advertisement> advertisements = advertisementRepository.selectEnabledAdvertises("Enabled");
+        // Select 3 random advertisements
+        List<Advertisement> random_ads = new ArrayList<>(new Random().ints(0, advertisements.size())
+                .distinct()
+                .limit(3)
+                .mapToObj(advertisements::get)
+                .toList());
+
+        // Shuffle the random_ads list to randomize the order
+        Collections.shuffle(random_ads);
+        // Select the first advertisement randomly
+        Random random = new Random();
+        Advertisement first_ad = random_ads.get(random.nextInt(0,random_ads.size()));
+        AdvertisementDetails first_advertisementDetails = mapper.map(first_ad, AdvertisementDetails.class);
+        model.addAttribute("first_ad", first_advertisementDetails);
+        random_ads.remove(first_ad);
+        // Select the second advertisement randomly
+        Advertisement second_ad = random_ads.get(random.nextInt(0,random_ads.size()));
+        AdvertisementDetails second_advertisementDetails = mapper.map(second_ad, AdvertisementDetails.class);
+        model.addAttribute("second_ad", second_advertisementDetails);
+        random_ads.remove(second_ad);
+        // Select the last advertisement
+        Advertisement third_ad = random_ads.get(0);
+        AdvertisementDetails third_advertisementDetails = mapper.map(third_ad, AdvertisementDetails.class);
+        model.addAttribute("third_ad", third_advertisementDetails);
     }
 }

@@ -43,8 +43,8 @@
     </nav>
     <div id="adding-content">
         <div id="form-container">
-            <h1 style="text-align: center; margin-bottom: 5%;">Update Advertisement</h1>
-            <form th:action="@{/admin/update-advertisement}" th:object="${update_advertisement}" enctype="multipart/form-data" th:method="post">
+            <h1 style="text-align: center; margin-bottom: 5%;">Update New Advertisement</h1>
+            <form th:action="@{/admin/update-advertisement}" th:object="${update_advertisement}" th:method="post">
                 <input type="hidden" th:name="id" th:value="${update_advertisement.id}"/>
                 <div class="row">
                     <div class="col-md-6 mb-4">
@@ -55,7 +55,7 @@
                             <input
                                     type="text"
                                     id="title"
-                                    style="border: 1px solid #4f4f4f; width: 400px;;"
+                                    style="border: 1px solid #4f4f4f; width: 400px;"
                                     th:field="*{title}"
                                     class="form-control form-control-lg"
                             />
@@ -66,6 +66,76 @@
                                     th:errors="*{title}"
                             ></div>
                         </div>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <div class="form-outline">
+                            <label class="form-label" for="company_name"
+                            >Enter Company Name:</label>
+                            <input
+                                    type="text"
+                                    id="company_name"
+                                    style="border: 1px solid #4f4f4f; width: 400px;;"
+                                    th:field="*{company_name}"
+                                    class="form-control form-control-lg"
+                            />
+                            <div
+                                    class="alert alert-warning"
+                                    style="width: 400px;"
+                                    th:if="${#fields.hasErrors('company_name')}"
+                                    th:errors="*{company_name}"
+                            ></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-4">
+                        <div class="form-outline" style="margin-left: 10%;">
+                            <label class="form-label" for="company_email"
+                            >Enter Company Email:</label
+                            >
+                            <input
+                                    type="text"
+                                    id="company_email"
+                                    style="border: 1px solid #4f4f4f; width: 400px;"
+                                    th:field="*{company_email}"
+                                    class="form-control form-control-lg"
+                            />
+                            <div
+                                    class="alert alert-warning"
+                                    style="width: 400px;"
+                                    th:if="${#fields.hasErrors('company_email')}"
+                                    th:errors="*{company_email}"
+                            ></div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <h6 class="mb-2 pb-2 pt-1">Status:</h6>
+                        <div
+                                th:each="data: ${status}"
+                                style="display: inline-block"
+                        >
+                            <div class="form-check form-check-inline">
+                                <input
+                                        class="form-check-input"
+                                        type="radio"
+                                        name="inlineRadioOptions"
+                                        id="status"
+                                        th:value="${data}"
+                                        th:field="*{status}"
+                                />
+                                <label
+                                        class="form-check-label"
+                                        for="status"
+                                        th:text="${data}"
+                                ></label>
+                            </div>
+                        </div>
+                        <div
+                                class="alert alert-warning"
+                                style="width: 400px;"
+                                th:if="${#fields.hasErrors('status')}"
+                                th:errors="*{status}"
+                        ></div>
                     </div>
                 </div>
                 <div class="row">
@@ -112,7 +182,7 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-md-6 mb-4" style="margin-top: -2%;">
+                    <div class="col-md-6 mb-4" style="margin-top: -1%;">
                         <label for="start-date-input" style="margin-left: 10%;">Select Start Date:</label>
                         <div class="row d-flex justify-content-sm-center px-2">
                             <div class="form-group row">
@@ -126,12 +196,11 @@
                                 th:errors="*{start_day}"
                         ></div>
                     </div>
-                    <div class="col-md-6 mb-4" style="margin-top: -2%; margin-left: -5%;">
+                    <div class="col-md-6 mb-4" style="margin-top: -1%; margin-left: -5%;">
                         <label for="end-date-input" style="margin-left: 10%;">Select End Date:</label>
                         <div class="row d-flex justify-content-sm-center px-2">
                             <div class="form-group row">
                                 <input type="text" id="end-date-input" class="datepicker date-input-style mr-2" placeholder="Select End Date" name="end_day"><br>
-
                             </div>
                         </div>
                         <div
@@ -142,10 +211,33 @@
                         ></div>
                     </div>
                 </div>
+
+                <div style="display: flex;">
+                    <div style="margin-top: -1%; margin-left: 5%;">
+                        <label for="start_time">Select start time:</label>
+                        <input type="time" id="start_time" name="start_time">
+                        <div
+                                class="alert alert-warning"
+                                style="width: 400px;"
+                                th:if="${#fields.hasErrors('start_time')}"
+                                th:errors="*{start_time}"
+                        ></div>
+                    </div>
+                    <div style="margin-top: -1%; margin-left: 5%;">
+                        <label for="end_time">Select end time:</label>
+                        <input type="time" id="end_time" name="end_time">
+                        <div
+                                class="alert alert-warning"
+                                style="width: 400px;"
+                                th:if="${#fields.hasErrors('end_time')}"
+                                th:errors="*{end_time}"
+                        ></div>
+                    </div>
+                </div>
                 <button type="submit" class="btn btn-primary action-btn-style">Confirm Changes</button>
                 <button type="button" class="btn btn-secondary action-btn-style"
                         th:onclick="window.location.href='/admin/view-advertisement'">
-                    Cancel Approval
+                    Cancel Changes
                 </button>
             </form>
         </div>

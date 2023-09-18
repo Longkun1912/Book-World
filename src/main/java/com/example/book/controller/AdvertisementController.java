@@ -72,7 +72,7 @@ public class AdvertisementController {
                                           BindingResult result, Model model){
         if(result.hasErrors()){
             userService.updateModel(model);
-            return "admin/approve_advertisement";
+            return "admin/update_advertisement";
         }
         else if (advertisementRepository.findAdvertisementByURL(advertisementHandling.getLink_url()).isPresent()){
             Advertisement advertisement = advertisementRepository.findById(advertisementHandling.getId()).orElseThrow();
@@ -83,7 +83,7 @@ public class AdvertisementController {
             else {
                 userService.updateModel(model);
                 result.rejectValue("link_url",null,"This advertisement URL already exists.");
-                return "admin/approve_advertisement";
+                return "admin/update_advertisement";
             }
         }
         else {
