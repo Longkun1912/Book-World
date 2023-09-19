@@ -70,9 +70,16 @@ public class UserController {
             return "user/edit_account";
         }
         else if (userRepository.findUserByEmail(userBasicInfo.getEmail()).isPresent()) {
-            userService.updateModel(model);
-            result.rejectValue("email",null,"Email already exists.");
-            return "admin/add_user";
+            User existing_user = userRepository.findUserById(userBasicInfo.getId()).orElseThrow();
+            if (Objects.equals(existing_user.getEmail(), userBasicInfo.getEmail())){
+                userService.saveUpdatedUserInfo(userBasicInfo);
+                return "redirect:/user/personal-info";
+            }
+            else {
+                userService.updateModel(model);
+                result.rejectValue("email",null,"Email already exists.");
+                return "admin/add_user";
+            }
         }
         else {
             userService.saveUpdatedUserInfo(userBasicInfo);

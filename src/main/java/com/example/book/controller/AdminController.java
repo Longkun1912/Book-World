@@ -109,9 +109,16 @@ public class AdminController {
             return "admin/edit_user";
         }
         else if (userRepository.findUserByEmail(userHandling.getEmail()).isPresent()) {
-            userService.updateModel(model);
-            result.rejectValue("email",null,"Email already exists.");
-            return "admin/edit_user";
+            User existing_user = userRepository.findUserById(userHandling.getId()).orElseThrow();
+            if (Objects.equals(existing_user.getEmail(), userHandling.getEmail())){
+                userService.saveUpdatedUser(userHandling);
+                return "redirect:/admin/user-index";
+            }
+            else {
+                userService.updateModel(model);
+                result.rejectValue("email",null,"Email already exists.");
+                return "admin/edit_user";
+            }
         }
         else {
             userService.saveUpdatedUser(userHandling);
