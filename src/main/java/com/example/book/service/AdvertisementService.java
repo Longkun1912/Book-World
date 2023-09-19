@@ -102,7 +102,6 @@ public class AdvertisementService {
     @Async
     @Scheduled(fixedRate = 60000)
     public void updateStatusForExpiredAdvertisements(){
-        System.out.println("Hello World");
         LocalDateTime current_time = LocalDateTime.now();
         List<Advertisement> advertisements = advertisementRepository.selectEnabledAdvertises("Enabled");
 
