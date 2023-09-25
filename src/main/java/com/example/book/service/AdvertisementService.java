@@ -73,40 +73,34 @@ public class AdvertisementService {
     public void getEnabledAdvertisements(Model model){
         List<AdvertisementDetails> advertisementDetailsList = new ArrayList<>();
         List<Advertisement> advertisements = advertisementRepository.selectEnabledAdvertises("Enabled");
-        // Select 3 random advertisements
-        List<Advertisement> random_ads = new ArrayList<>(new Random().ints(0, advertisements.size())
-                .distinct()
-                .limit(3)
-                .mapToObj(advertisements::get)
-                .toList());
-
         // Shuffle the random_ads list to randomize the order
-        Collections.shuffle(random_ads);
+        Collections.shuffle(advertisements);
         // Select the first advertisement randomly
         Random random = new Random();
-        Advertisement first_ad = random_ads.get(random.nextInt(0,random_ads.size()));
+        Advertisement first_ad = advertisements.get(random.nextInt(0, advertisements.size()));
         AdvertisementDetails first_advertisementDetails = mapper.map(first_ad, AdvertisementDetails.class);
         model.addAttribute("first_ad", first_advertisementDetails);
-        random_ads.remove(first_ad);
+        advertisements.remove(first_ad);
         // Select the second advertisement randomly
-        Advertisement second_ad = random_ads.get(random.nextInt(0,random_ads.size()));
+        Advertisement second_ad = advertisements.get(random.nextInt(0, advertisements.size()));
         AdvertisementDetails second_advertisementDetails = mapper.map(second_ad, AdvertisementDetails.class);
         model.addAttribute("second_ad", second_advertisementDetails);
-        random_ads.remove(second_ad);
+        advertisements.remove(second_ad);
         // Select the last advertisement
-        Advertisement third_ad = random_ads.get(0);
+        Advertisement third_ad = advertisements.get(0);
         AdvertisementDetails third_advertisementDetails = mapper.map(third_ad, AdvertisementDetails.class);
         model.addAttribute("third_ad", third_advertisementDetails);
     }
 
     @Async
-    @Scheduled(fixedRate = 60000)
+    @Scheduled(fixedRate = 120000)
     public void updateStatusForExpiredAdvertisements(){
         LocalDateTime current_time = LocalDateTime.now();
         List<Advertisement> advertisements = advertisementRepository.selectEnabledAdvertises("Enabled");
 
+        // Update status for expired advertisements
         for (Advertisement advertisement : advertisements){
-            if (advertisement.getEnd_date().isAfter(current_time)){
+            if (advertisement.getEnd_date().isBefore(current_time)){
                 advertisement.setStatus("Disabled");
                 advertisementRepository.save(advertisement);
             }

@@ -74,25 +74,25 @@ insert into advertisements(title,company_name,company_email,status,image_url,lin
 'Amazon','amazon@us.com','Enabled',
 'https://m.media-amazon.com/images/I/61emnvMdApS._AC_SX466_.jpg',
 'https://us.amazon.com/Razer-Kraken-Ultralight-Gaming-Headset/dp/B09SJWCKL4/ref=sr_1_3?_encoding=UTF8&content-id=amzn1.sym.12129333-2117-4490-9c17-6d31baf0582a&keywords=gaming%2Bheadsets&pd_rd_r=0deff0f5-f430-4b6d-a306-fd62008b58b7&pd_rd_w=JpkeL&pd_rd_wg=6brGg&pf_rd_p=12129333-2117-4490-9c17-6d31baf0582a&pf_rd_r=W5RKC8XVCWZ0AS60QBCX&qid=1694325368&sr=8-3&th=1',
-timestamp '2023-09-02 20:18:00',timestamp '2023-09-16 20:18:00'),
+timestamp '2023-09-02 20:18:00',timestamp '2023-12-16 20:18:00'),
 
 ('iPhone 14 Pro Max 256GB',
 'thegioididong','baochi@thegioididong.com','Enabled',
 'https://cdn.tgdd.vn/Products/Images/42/289700/iphone-14-pro-max-purple-1.jpg',
 'https://www.thegioididong.com/dtdd/iphone-14-pro-max-256gb?utm_flashsale=1',
-timestamp '2023-08-30 20:18:00',timestamp '2023-09-22 20:18:00'),
+timestamp '2023-08-30 20:18:00',timestamp '2023-11-22 20:18:00'),
 
 ('Let''s Eat: 101 Recipes to Fill Your Heart & Home',
 'Barnes & Noble','barnesandnoble@uk.com','Disabled',
 'https://prodimage.images-bn.com/lf?set=key%5Bresolve.pixelRatio%5D,value%5B1%5D&set=key%5Bresolve.width%5D,value%5B600%5D&set=key%5Bresolve.height%5D,value%5B10000%5D&set=key%5Bresolve.imageFit%5D,value%5Bcontainerwidth%5D&set=key%5Bresolve.allowImageUpscaling%5D,value%5B0%5D&set=key%5Bresolve.format%5D,value%5Bwebp%5D&source=url%5Bhttps://prodimage.images-bn.com/pimages/9781454946397_p0_v19_s600x595.jpg%5D&scale=options%5Blimit%5D,size%5B600x10000%5D&sink=format%5Bwebp%5D',
 'https://www.barnesandnoble.com/w/lets-eat-dan-pelosi/1143152235?ean=9781454946397',
-timestamp '2023-08-28 20:18:00',timestamp '2023-10-03 20:18:00'),
+timestamp '2023-08-28 20:18:00',timestamp '2023-11-03 20:18:00'),
 
 ('DEBONSAPT Hot sale industrial protective breathable work boots casual training shoes steel toe safety shoes for shop winter',
 'Alibaba','alibaba@taobao.cn','Enabled',
 'https://s.alicdn.com/@sc04/kf/Heb3c3f1e27d340c68e078bff13f7b08dK.jpg_720x720q50.jpg',
 'https://www.alibaba.com/product-detail/DEBONSAPT-Hot-sale-industrial-protective-breathable_1600345181379.html?spm=a2700.galleryofferlist.wending_right.10.422e11cdkjEsrM',
-timestamp '2023-08-21 20:18:00',timestamp '2023-10-09 20:18:00');
+timestamp '2023-08-21 20:18:00',timestamp '2023-12-09 20:18:00');
 
 
 

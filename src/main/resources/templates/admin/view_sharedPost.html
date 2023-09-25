@@ -16,7 +16,7 @@
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
 </head>
 <body>
-<div th:replace="admin/menu :: menuBar"></div>
+<div th:replace="~{admin/menu :: menuBar}"></div>
 <section class="home-section">
     <nav>
         <div class="sidebar-button">
@@ -67,7 +67,7 @@
                                     </button>
                                     <a type="button" class="dropdown-item" th:href="@{/admin/delete-post/{id}(id=@{${post.id}})}">Delete post</a>
                                 </div>
-                                <div th:replace="admin/edit_post :: edit-post" th:with="post=${post}"></div>
+                                <div th:replace="~{admin/edit_post :: edit-post}" th:with="post=${post}"></div>
                             </div>
                         </div>
                         <div class="post-content">
@@ -114,10 +114,10 @@
                                 >
                                     Share
                                 </button>
-                                <div th:replace="admin/rating_modal :: rating-star" th:with="post=${post}"></div>
-                                <div th:replace="admin/comment_form :: comment-form" th:with="post=${post}"></div>
-                                <div th:replace="admin/comment_list :: comment-list" th:with="post=${post}"></div>
-                                <div th:replace="admin/share_post :: share-post" th:with="post=${post}"></div>
+                                <div th:replace="~{admin/rating_modal :: rating-star}" th:with="post=${post}"></div>
+                                <div th:replace="~{admin/comment_form :: comment-form}" th:with="post=${post}"></div>
+                                <div th:replace="~{admin/comment_list :: comment-list}" th:with="post=${post}"></div>
+                                <div th:replace="~{admin/share_post :: share-post}" th:with="post=${post}"></div>
                             </div>
                         </div>
                     </div>

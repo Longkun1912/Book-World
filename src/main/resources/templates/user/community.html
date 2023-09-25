@@ -17,10 +17,10 @@
   <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
 </head>
 <body>
-<div th:replace="user/home_bar :: userHomepage"></div>
+<div th:replace="~{user/home_bar :: userHomepage}"></div>
 <header>
   <section>
-    <div th:replace="user/advertisement_modal :: advertisement"></div>
+    <div th:replace="~{user/advertisement_modal :: advertisement}"></div>
     <div id="community-page" style="background-size: contain; background-image: url('https://i.pinimg.com/736x/23/cb/71/23cb7143f892c49537c8a55f5ee21988.jpg') !important;">
       <div th:if="${message}" class="alert alert-info" id="flash-message">
         <h1 id="danger-message" th:text="${message}"></h1>
@@ -39,7 +39,7 @@
                     th:text="'Share what is on your mind, ' + ${user_detail.username} + '...'"
                     aria-describedby="inputGroup-sizing-default" id="input-content"
             ></button>
-            <div th:replace="user/create_post :: create-post"></div>
+            <div th:replace="~{user/create_post :: create-post}"></div>
           </div>
         </div>
       </div>
@@ -79,9 +79,9 @@
                       Delete post
                     </button>
                   </div>
-                  <div th:replace="user/edit_post :: edit-post" th:with="post=${post}"></div>
-                  <div th:replace="user/delete_post :: delete-post" th:with="post=${post}"></div>
-                  <div th:replace="forbidden_modal :: forbidden-request"></div>
+                  <div th:replace="~{user/edit_post :: edit-post}" th:with="post=${post}"></div>
+                  <div th:replace="~{user/delete_post :: delete-post}" th:with="post=${post}"></div>
+                  <div th:replace="~{forbidden_modal :: forbidden-request}"></div>
                 </div>
               </div>
               <div class="post-content">
@@ -128,10 +128,10 @@
                   >
                     Share
                   </button>
-                  <div th:replace="user/rating_modal :: rating-star" th:with="post=${post}"></div>
-                  <div th:replace="user/comment_form :: comment-form" th:with="post=${post}"></div>
-                  <div th:replace="user/comment_list :: comment-list" th:with="post=${post}"></div>
-                  <div th:replace="user/share_post :: share-post" th:with="post=${post}"></div>
+                  <div th:replace="~{user/rating_modal :: rating-star}" th:with="post=${post}"></div>
+                  <div th:replace="~{user/comment_form :: comment-form}" th:with="post=${post}"></div>
+                  <div th:replace="~{user/comment_list :: comment-list}" th:with="post=${post}"></div>
+                  <div th:replace="~{user/share_post :: share-post}" th:with="post=${post}"></div>
                 </div>
               </div>
             </div>

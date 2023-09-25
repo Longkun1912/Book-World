@@ -33,9 +33,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </head>
 <body>
-<div th:replace="user/home_bar :: userHomepage"></div>
+<div th:replace="~{user/home_bar :: userHomepage}"></div>
 <section>
-    <div th:replace="user/advertisement_modal :: advertisement"></div>
+    <div th:replace="~{user/advertisement_modal :: advertisement}"></div>
     <div
             id="intro"
             class="bg-image"
@@ -136,7 +136,7 @@
                                 </button>
                                 <a type="button" id="add-favorite" class="btn btn-secondary" th:href="@{/user/add-book-to-favorite/{id}(id=${book.id})}">Add favorite</a>
                             </div>
-                            <div th:replace="user/book_preview :: preview-book" th:with="book=${book}"></div>
+                            <div th:replace="~{user/book_preview :: preview-book}" th:with="book=${book}"></div>
                         </li>
                     </ul>
                 </div>

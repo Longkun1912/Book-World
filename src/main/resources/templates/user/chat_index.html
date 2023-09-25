@@ -22,7 +22,7 @@
     <script th:src="@{/js/message-alert.js}"></script>
 </head>
 <body>
-<div th:replace="user/home_bar :: userHomepage"></div>
+<div th:replace="~{user/home_bar :: userHomepage}"></div>
 <header>
     <section>
         <div
@@ -82,7 +82,7 @@
 
                         <ul class="list-unstyled" id="message-container">
                             <li th:each="message : ${messages}" class="d-flex justify-content-between mb-4">
-                                <div th:replace="user/update_message :: update-message" th:with="message=${message}"></div>
+                                <div th:replace="~{user/update_message :: update-message}" th:with="message=${message}"></div>
                                 <div th:classappend="${message.sender == user_detail ? 'card-right' : 'card-left'}">
                                     <div class="card" style="max-width: 400px;">
                                         <div class="card-header d-flex justify-content-between p-3" style="width: 400px;">

@@ -19,7 +19,7 @@
   ></script>
 </head>
 <body>
-<div th:replace="home_navbar :: homeBar"></div>
+<div th:replace="~{home_navbar :: homeBar}"></div>
 <div id="form-container">
   <form id="login-form" th:action="@{/login}" th:method="post">
     <h1 id="login-label">Login</h1>

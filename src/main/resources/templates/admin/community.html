@@ -16,7 +16,7 @@
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
 </head>
 <body>
-<div th:replace="admin/menu :: menuBar"></div>
+<div th:replace="~{admin/menu :: menuBar}"></div>
 <section class="home-section">
     <nav>
         <div class="sidebar-button">
@@ -35,7 +35,7 @@
         <div id="community-welcome">
             <h1 style="text-align: center;">Thegioisach Feed</h1>
         </div>
-        <div id="create-post" style="width: 47% !important;">
+        <div id="create-post">
             <div id="user-avatar">
                 <img th:src="${user_detail.image_url}" class="user-image"/>
             </div>
@@ -46,7 +46,7 @@
                             th:text="'Share what is on your mind, ' + ${user_detail.username} + '...'"
                             aria-describedby="inputGroup-sizing-default" id="input-content"
                     ></button>
-                    <div th:replace="admin/create_post :: create-post"></div>
+                    <div th:replace="~{admin/create_post :: create-post}"></div>
                 </div>
             </div>
         </div>
@@ -72,7 +72,7 @@
                                     </button>
                                     <a type="button" class="dropdown-item" th:href="@{/admin/delete-post/{id}(id=@{${post.id}})}">Delete post</a>
                                 </div>
-                                <div th:replace="admin/edit_post :: edit-post" th:with="post=${post}"></div>
+                                <div th:replace="~{admin/edit_post :: edit-post}" th:with="post=${post}"></div>
                             </div>
                         </div>
                         <div class="post-content">
@@ -119,10 +119,10 @@
                                 >
                                     Share
                                 </button>
-                                <div th:replace="admin/rating_modal :: rating-star" th:with="post=${post}"></div>
-                                <div th:replace="admin/comment_form :: comment-form" th:with="post=${post}"></div>
-                                <div th:replace="admin/comment_list :: comment-list" th:with="post=${post}"></div>
-                                <div th:replace="admin/share_post :: share-post" th:with="post=${post}"></div>
+                                <div th:replace="~{admin/rating_modal :: rating-star}" th:with="post=${post}"></div>
+                                <div th:replace="~{admin/comment_form :: comment-form}" th:with="post=${post}"></div>
+                                <div th:replace="~{admin/comment_list :: comment-list}" th:with="post=${post}"></div>
+                                <div th:replace="~{admin/share_post :: share-post}" th:with="post=${post}"></div>
                             </div>
                         </div>
                     </div>

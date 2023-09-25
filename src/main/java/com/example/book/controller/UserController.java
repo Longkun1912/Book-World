@@ -96,7 +96,6 @@ public class UserController {
         List<BookDetails> recommended_books = bookService.getRecommendedBooksForUser();
         // People who share the same favorites
         List<UserInfoDetails> shared_users = userService.getUserWhoShareTheSameFavorite();
-        recommended_books.forEach(bookDetails -> System.out.println(bookDetails.getTitle()));
         model.addAttribute("users", shared_users);
         model.addAttribute("books", recommended_books);
         return "user/home_page";

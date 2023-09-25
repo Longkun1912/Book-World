@@ -95,16 +95,16 @@
                               Delete
                             </button>
                           </div>
-                          <div th:replace="user/edit_reply :: edit-reply" th:with="reply=${reply}"></div>
-                          <div th:replace="user/delete_reply :: delete-reply" th:with="reply=${reply}"></div>
+                          <div th:replace="~{user/edit_reply :: edit-reply}" th:with="reply=${reply}"></div>
+                          <div th:replace="~{user/delete_reply :: delete-reply}" th:with="reply=${reply}"></div>
                         </li>
                       </ul>
                     </div>
                   </div>
-                  <div th:replace="user/edit_comment :: edit-comment" th:with="comment=${comment}"></div>
-                  <div th:replace="user/delete_comment :: delete-comment" th:with="comment=${comment}"></div>
-                  <div th:replace="forbidden_modal :: forbidden-request"></div>
-                  <div th:replace="user/reply_form :: reply-form" th:with="comment=${comment}"></div>
+                  <div th:replace="~{user/edit_comment :: edit-comment}" th:with="comment=${comment}"></div>
+                  <div th:replace="~{user/delete_comment :: delete-comment}" th:with="comment=${comment}"></div>
+                  <div th:replace="~{forbidden_modal :: forbidden-request}"></div>
+                  <div th:replace="~{user/reply_form :: reply-form}" th:with="comment=${comment}"></div>
                 </li>
               </ul>
             </div>
