@@ -1,8 +1,8 @@
 .update-form{
-    margin-top: 4%;
+    margin-top: 3% !important;
     background-color: antiquewhite;
     border-radius: 12px;
-    width: 130vh;
+    width: 130vh !important;
     margin-left: 7%;
 }
 

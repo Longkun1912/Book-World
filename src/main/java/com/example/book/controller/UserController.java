@@ -105,6 +105,7 @@ public class UserController {
     public String friendList(@RequestParam(required = false) String username,
                              @RequestParam(required = false) String friend_name,
                              Model model){
+        userService.addUserAttributesToModel(model);
         userService.configureUsersIncludeFriends(model,username,friend_name);
         return "user/friend_list";
     }

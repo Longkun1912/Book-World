@@ -42,7 +42,7 @@
                 <div
                         class="container d-flex justify-content-center align-items-center h-100"
                 >
-                    <div class="row align-items-center">
+                    <div class="row align-items-center" style="margin-top: 15%;">
                         <h1 style="letter-spacing: 10px; font-size: 45px; text-align: center; margin-top: -5%;"
                             class="mb-0 text-white display-1">
                             Update Personal Details
@@ -68,7 +68,7 @@
                                         </div>
                                     </div>
                                     <div class="col-md-6 mb-4">
-                                        <div class="form-outline" style="margin-left: -5%;">
+                                        <div class="form-outline">
                                             <label class="form-label" for="email"
                                             >Email</label
                                             >
@@ -104,7 +104,7 @@
                                         </div>
                                     </div>
                                     <div class="col-md-6 mb-4 pb-2" id="image-container">
-                                        <div class="form-outline" style="margin-left: 10%; margin-top: -3%;">
+                                        <div class="form-outline" style="margin-left: 15%; margin-top: -3%;">
                                             <label class="form-label" for="user_image"
                                             >User Image</label
                                             >
@@ -148,6 +148,7 @@
                                         <ul
                                                 class="text-danger"
                                                 th:each="error: ${#fields.errors('password')}"
+                                                style="margin-left: 5%;"
                                                 id="password-validation"
                                         >
                                             <li th:each="message : ${error.split(',')}">
@@ -155,7 +156,7 @@
                                             </li>
                                         </ul>
                                     </div>
-                                    <div class="col-md-6 mb-4 pb-2" style="margin-left: -7%;">
+                                    <div class="col-md-6 mb-4 pb-2" style="margin-left: -5%;">
                                         <label class="form-label" for="confirm-password" style="margin-left: 10%;">Confirm password</label>
                                         <div class="input-group"  style="width: 400px; margin-left: 10%;">
                                             <input
@@ -169,6 +170,7 @@
                                         </div>
                                         <div
                                                 class="alert alert-warning"
+                                                style="margin-left: 10%;"
                                                 th:if="${#fields.hasErrors('confirm_password')}"
                                                 th:errors="*{confirm_password}"
                                         ></div>
